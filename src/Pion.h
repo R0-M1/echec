@@ -8,4 +8,4 @@ class Pion :public Piece {
 };
 
 
-#endif //ECHEC_PION_H
+#endif

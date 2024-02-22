@@ -1,9 +1,12 @@
 #ifndef ECHEC_ECHIQUIER_H
 #define ECHEC_ECHIQUIER_H
 #include "Piece.h"
+#include "Pion.h"
 
 class Echiquier {
-    Piece *Tab = new Piece[8][8];
+public:
+    Echiquier();
+    ~Echiquier();
 };
 
 
