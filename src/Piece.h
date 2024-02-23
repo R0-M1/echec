@@ -1,13 +1,23 @@
-#ifndef ECHEC_PIECE_H
-#define ECHEC_PIECE_H
+#ifndef _PIECE_
+#define _PIECE_
 
+enum type_piece {pion, fou, cavalier, tour, dame, roi};
+typedef unsigned short int entier;
 
-class Piece {
-public :
-    bool couleur; //0 = blanc, 1 = noir
-    Piece();
-    ~Piece();
+class Piece
+{
+    private:
+        bool couleur;
+        type_piece id;
+
+        
 };
+
+
+
+
+
+
 
 
 #endif
