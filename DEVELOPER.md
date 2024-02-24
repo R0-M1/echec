@@ -19,11 +19,7 @@ Ici vous apprendrez à utiliser le git dans votre IDE.
 ![commit](https://itsfoss.com/content/images/2023/04/push-chnages-to-github-repo-from-vs-code.png)
 
 * Pour **Pull** :
-<img class="crop1" src="https://learn.microsoft.com/en-us/azure/developer/javascript/media/how-to-clone-github-repo/visual-studio-code-show-git-output.png" alt="pull">
-<style> 
-.crop1 { width: 400px; height: 350px; object-fit: cover; object-position: left -1px; }
-</style>
-
+![pull](https://i.ibb.co/yVsJPK1/visual-studio-code-show-git-output.png)
 
 ### Règles
 
