@@ -19,6 +19,7 @@ Ici vous apprendrez à utiliser le git dans votre IDE.
 ![commit](https://itsfoss.com/content/images/2023/04/push-chnages-to-github-repo-from-vs-code.png)
 
 * Pour **Pull** :
+
 ![pull](https://i.ibb.co/yVsJPK1/visual-studio-code-show-git-output.png)
 
 ### Règles
