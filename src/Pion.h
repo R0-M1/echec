@@ -3,14 +3,15 @@
 
 #include "Piece.h"
 
-class Pion :public Piece {
+class Pion : public Piece {
 public:
     Pion(CouleurPiece c, PositionPiece p);
     ~Pion();
-    bool MouvementValide(PositionPiece versPos);
+
+    bool CoupValide(PositionPiece versPos);
 
 private:
-    bool doubleSaut;
+    bool doubleMouvement;
 };
 
 

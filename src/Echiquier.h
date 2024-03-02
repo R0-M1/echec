@@ -1,8 +1,13 @@
 #ifndef _ECHIQUIER_
 #define _ECHIQUIER_
 
-#include  "Piece.h"
+#include "Piece.h"
 #include "Pion.h"
+#include "Roi.h"
+#include "Dame.h"
+#include "Tour.h"
+#include "Fou.h"
+#include "Cavalier.h"
 
 class Echiquier
 {

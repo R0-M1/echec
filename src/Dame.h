@@ -1,18 +1,14 @@
 #ifndef _DAME_
 #define _DAME_
 
-
-#include "Echiquier.h"
 #include "Piece.h"
 
+class Dame : public Piece {
+public:
+    Dame(CouleurPiece c, PositionPiece p);
+    ~Dame();
 
-class Dame: public Piece
-{
-    public:
-    bool coup_valide(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup, Echiquier echiquier)const;
-    
-
-    
+    bool CoupValide(PositionPiece versPos);
 }; 
 
 

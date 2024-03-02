@@ -1,26 +1,42 @@
-
 #include "Echiquier.h"
 
 
-Echiquier::Echiquier(){
-
+Echiquier::Echiquier() {
     for (entier i = 0; i < 8; i++)
         for (entier j = 0; j < 8; j++)
             plateau[i][j] = nullptr;
             
 }
 
-Echiquier::~Echiquier(){
+Echiquier::~Echiquier() {
 
     //libearttion de la memoire des 32 pièces faut surtout pas oublier
 }
 
 void Echiquier::initialisation() {
     for(int col = 0; col < 8; col++) {
-        plateau[1][col] = new Pion;
-        plateau[6][col] = new Pion;
+        plateau[1][col] = new Pion(blanc, {1,col});
+        plateau[6][col] = new Pion(noir, {6,col});
     }
+    //blanc
+    plateau[0][0] = new Tour(blanc, {0,0});
+    plateau[0][1] = new Cavalier(blanc, {0,1});
+    plateau[0][2] = new Fou(blanc, {0,2});
+    plateau[0][3] = new Dame(blanc, {0,3});
+    plateau[0][4] = new Roi(blanc, {0,4});
+    plateau[0][5] = new Fou(blanc, {0,5});
+    plateau[0][6] = new Cavalier(blanc, {0,6});
+    plateau[0][7] = new Tour(blanc, {0,7});
 
+    //noir
+    plateau[7][0] = new Tour(noir, {7,0});
+    plateau[7][1] = new Cavalier(noir, {7,1});
+    plateau[7][2] = new Fou(noir, {7,2});
+    plateau[7][3] = new Dame(noir, {7,3});
+    plateau[7][4] = new Roi(noir, {7,4});
+    plateau[7][5] = new Fou(noir, {7,5});
+    plateau[7][6] = new Cavalier(noir, {7,6});
+    plateau[7][7] = new Tour(noir, {7,7});
 }
 
 bool Echiquier::est_dans_Echiquier(entier x, entier y)const{
