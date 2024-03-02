@@ -2,13 +2,16 @@
 #define _ECHIQUIER_
 
 #include  "Piece.h"
-
+#include "Pion.h"
 
 class Echiquier
 {
+private:
+    Piece* plateau[8][8]; // plateau[x][y], x correspond aux lignes et y aux colonnes. La case C1 correspond à plateau[0][2]
+
     
 public:
-    Piece* plateau[8][8];
+
     
     Echiquier();
     ~Echiquier();
@@ -25,15 +28,6 @@ public:
     
 
 };
-
-
-
-
-
-
-
-
-
 
 
 

@@ -15,6 +15,13 @@ Echiquier::~Echiquier(){
     //libearttion de la memoire des 32 pièces faut surtout pas oublier
 }
 
+void Echiquier::initialisation() {
+    for(int col = 0; i < 8; i++) {
+        plateau[1][col] = new Pion;
+        plateau[6][col] = new Pion;
+    }
+}
+
 bool Echiquier::est_dans_Echiquier(entier x, entier y)const{
     return (x<64 && x>=0) && (y<64 && y>=0);
 }

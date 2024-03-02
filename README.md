@@ -3,19 +3,19 @@ Jeu d'échec en C++
 
 Pour les dev aller [ici](DEVELOPER.md)
 
-### Installation
+## Installation
 
 ---
 1. attend un peu
 
-### Organisation de l'archive
+## Organisation de l'archive
 
 ---
 * `assets` : Où sont stockés les images, sons, ...
 * `doc` : Contient toute la documentation du programme
 * `src` : Contient les fichiers sources (.h et .cpp)
 
-### Membres
+## Membres
 
 ---
 
