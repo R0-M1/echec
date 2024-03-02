@@ -2,15 +2,20 @@
 
 
 Echiquier::Echiquier() {
-    for (entier i = 0; i < 8; i++)
-        for (entier j = 0; j < 8; j++)
+    for (entier i = 0; i < 8; i++) {
+        for (entier j = 0; j < 8; j++) {
             plateau[i][j] = nullptr;
-            
+        }
+    }
 }
 
 Echiquier::~Echiquier() {
-
-    //libearttion de la memoire des 32 pièces faut surtout pas oublier
+    for (entier i = 0; i < 8; i++) {
+        for (entier j = 0; j < 8; j++) {
+            delete plateau[i][j];
+            plateau[i][j] = nullptr;
+        }
+    }
 }
 
 void Echiquier::initialisation() {
