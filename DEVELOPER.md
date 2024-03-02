@@ -6,6 +6,7 @@ Ici vous apprendrez à utiliser le git dans votre IDE (Seulement sur VSCode pour
 
 1. Mettre des messages pertinents pour chaque commit.
 2. Ne jamais oublier de faire un **pull** avant de commencer à travailler sur le projet.
+3. Les noms de variables s'écrivent _`maVariableCommeCeci`_ et les noms de fonctions/classes s'écrivent _`MaClassCommeCeci`_. La différence est à la majuscule du début.
 
 ## Mise en place du git
 

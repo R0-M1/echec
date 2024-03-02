@@ -16,10 +16,11 @@ Echiquier::~Echiquier(){
 }
 
 void Echiquier::initialisation() {
-    for(int col = 0; i < 8; i++) {
+    for(int col = 0; col < 8; col++) {
         plateau[1][col] = new Pion;
         plateau[6][col] = new Pion;
     }
+
 }
 
 bool Echiquier::est_dans_Echiquier(entier x, entier y)const{

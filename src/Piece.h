@@ -14,7 +14,8 @@ typedef struct Coordonnees {
 class Piece
 {
 public:
-
+    Piece();
+    ~Piece();
 
 protected:
     CouleurPiece couleur;
