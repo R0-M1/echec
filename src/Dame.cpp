@@ -13,6 +13,6 @@ Dame::~Dame() {
 /* Vérifie si la piece peut se déplacer vers la destination
  * Renvoie un bool (Mouvement valide : true, Mouvement non valide : false)
  */
-bool Dame::CoupValide(PositionPiece versPos) {
+bool Dame::coupValide(PositionPiece versPos) {
     return false;
 }

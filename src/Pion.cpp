@@ -14,6 +14,6 @@ Pion::~Pion() {
 /* Vérifie si la piece peut se déplacer vers la destination
  * Renvoie un bool (Mouvement valide : true, Mouvement non valide : false)
  */
-bool Pion::CoupValide(PositionPiece versPos) {
+bool Pion::coupValide(PositionPiece versPos) {
     return false;
 }

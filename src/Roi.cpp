@@ -10,6 +10,6 @@ Roi::~Roi() {
 
 }
 
-bool Roi::CoupValide(PositionPiece versPos) {
+bool Roi::coupValide(PositionPiece versPos) {
     return false;
 }

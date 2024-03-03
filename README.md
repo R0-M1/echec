@@ -13,6 +13,7 @@ Pour les dev aller [ici](DEVELOPER.md)
 ---
 * `assets` : Où sont stockés les images, sons, ...
 * `doc` : Contient toute la documentation du programme
+* `SFML` : Contient la bibliothèque graphique SFML
 * `src` : Contient les fichiers sources (.h et .cpp)
 
 ## Membres

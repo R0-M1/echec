@@ -8,7 +8,7 @@ public:
     Roi(CouleurPiece c, PositionPiece p);
     ~Roi();
 
-    bool CoupValide(PositionPiece versPos);
+    bool coupValide(PositionPiece versPos);
 
 };
 

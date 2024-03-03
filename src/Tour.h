@@ -8,7 +8,7 @@ public:
     Tour(CouleurPiece c, PositionPiece p);
     ~Tour();
 
-    bool CoupValide(PositionPiece versPos);
+    bool coupValide(PositionPiece versPos);
 };
 
 

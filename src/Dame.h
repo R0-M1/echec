@@ -8,7 +8,7 @@ public:
     Dame(CouleurPiece c, PositionPiece p);
     ~Dame();
 
-    bool CoupValide(PositionPiece versPos);
+    bool coupValide(PositionPiece versPos);
 }; 
 
 

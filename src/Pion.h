@@ -8,7 +8,7 @@ public:
     Pion(CouleurPiece c, PositionPiece p);
     ~Pion();
 
-    bool CoupValide(PositionPiece versPos);
+    bool coupValide(PositionPiece versPos);
 
 private:
     bool doubleMouvement;

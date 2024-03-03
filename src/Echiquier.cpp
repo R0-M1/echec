@@ -19,7 +19,7 @@ Echiquier::~Echiquier() {
 }
 
 void Echiquier::initialisation() {
-    for(int col = 0; col < 8; col++) {
+    for(entier col = 0; col < 8; col++) {
         plateau[1][col] = new Pion(blanc, {1,col});
         plateau[6][col] = new Pion(noir, {6,col});
     }
@@ -44,15 +44,15 @@ void Echiquier::initialisation() {
     plateau[7][7] = new Tour(noir, {7,7});
 }
 
-bool Echiquier::est_dans_Echiquier(entier x, entier y)const{
-    return (x<64 && x>=0) && (y<64 && y>=0);
+bool Echiquier::estDansEchiquier(entier x, entier y) const {
+    return ((x<=7 && x>=0) && (y<=7 && y>=0));
 }
 
-bool Echiquier::presence_piece(entier x, entier y)const{
-
-    return (plateau[x][y] != nullptr);
+Piece* Echiquier::getPiece(PositionPiece pos) {
+    return plateau[pos.xpos][pos.ypos];
 }
 
+/*
 bool Echiquier::coup_valide_diagonal(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup)const{
 
     if (((x_actuel - x_coup)*(x_actuel - x_coup)) != ((y_actuel - y_coup)*(y_actuel - y_coup)))
@@ -116,7 +116,4 @@ bool Echiquier::coup_valide_vertical(entier x_actuel, entier y_actuel, entier x_
     return true;
     
 }
-
-
-
-
+*/

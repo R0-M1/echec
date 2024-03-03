@@ -8,6 +8,6 @@ Tour::~Tour() {
 
 }
 
-bool Tour::CoupValide(PositionPiece versPos) {
+bool Tour::coupValide(PositionPiece versPos) {
     return false;
 }

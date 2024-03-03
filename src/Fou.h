@@ -8,7 +8,7 @@ public:
     Fou(CouleurPiece c, PositionPiece p);
     ~Fou();
 
-    bool CoupValide(PositionPiece versPos);
+    bool coupValide(PositionPiece versPos);
 };
 
 

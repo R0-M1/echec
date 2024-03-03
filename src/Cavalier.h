@@ -8,7 +8,7 @@ public:
     Cavalier(CouleurPiece c, PositionPiece p);
     ~Cavalier();
 
-    bool CoupValide(PositionPiece versPos);
+    bool coupValide(PositionPiece versPos);
 };
 
 

@@ -7,15 +7,18 @@ enum CouleurPiece {blanc, noir};
 typedef unsigned short int entier;
 
 typedef struct Coordonnees {
-    int xpos;
-    int ypos;
+    entier xpos;
+    entier ypos;
 } PositionPiece;
 
-class Piece
-{
+class Piece {
 public:
     Piece();
     ~Piece();
+
+    CouleurPiece getCouleur();
+    PositionPiece getPosition();
+    void setPosition(PositionPiece pos);
 
 protected:
     CouleurPiece couleur;
