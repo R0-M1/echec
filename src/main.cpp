@@ -1,7 +1,7 @@
 #include "Echiquier.h"
 #include "Pion.h"
 #include <iostream>
-#include <SFML/Graphics.hpp>
+//#include <SFML/Graphics.hpp>
 
 using namespace std;
 

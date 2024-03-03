@@ -1,5 +1,6 @@
 #include "Pion.h"
 
+
 Pion::Pion(CouleurPiece c, PositionPiece p) {
     type = pion;
     couleur = c;
@@ -15,5 +16,8 @@ Pion::~Pion() {
  * Renvoie un bool (Mouvement valide : true, Mouvement non valide : false)
  */
 bool Pion::coupValide(PositionPiece versPos) {
+    //if()
+
+
     return false;
 }
