@@ -1,6 +1,7 @@
 #ifndef _ECHIQUIER_
 #define _ECHIQUIER_
 
+
 #include "Piece.h"
 #include "Pion.h"
 #include "Roi.h"
@@ -17,11 +18,12 @@ public:
     Echiquier();
     ~Echiquier();
     void initialisation();
-    bool estDansEchiquier(entier x, entier y) const;
     Piece* getPiece(PositionPiece pos);
+    bool caseVide(PositionPiece pos);
+    bool estDansEchiquier(PositionPiece pos) const;
 
     //appelle les fonctions coupValide en fonction du type de Piece
-    deplacerPiece(PositionPiece depuisPos, PositionPiece versPos);
+    bool deplacerPiece(PositionPiece depuisPos, PositionPiece versPos);
 };
 
 

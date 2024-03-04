@@ -2,11 +2,10 @@
 #define ECHEC_PION_H
 
 #include "Piece.h"
-#include "Echiquier.h"
 
 class Pion : public Piece {
 public:
-    Pion(CouleurPiece c, PositionPiece p);
+    Pion(CouleurPiece c, PositionPiece p, Echiquier *e);
     ~Pion();
 
     bool coupValide(PositionPiece versPos);

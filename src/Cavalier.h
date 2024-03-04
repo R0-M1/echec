@@ -1,6 +1,7 @@
 #ifndef ECHEC_CAVALIER_H
 #define ECHEC_CAVALIER_H
 
+
 #include "Piece.h"
 
 class Cavalier : public Piece {

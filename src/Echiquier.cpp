@@ -20,8 +20,8 @@ Echiquier::~Echiquier() {
 
 void Echiquier::initialisation() {
     for(entier col = 0; col < 8; col++) {
-        plateau[1][col] = new Pion(blanc, {1,col});
-        plateau[6][col] = new Pion(noir, {6,col});
+        plateau[1][col] = new Pion(blanc, {1,col}, this);
+        plateau[6][col] = new Pion(noir, {6,col}, this);
     }
     //blanc
     plateau[0][0] = new Tour(blanc, {0,0});
@@ -44,12 +44,31 @@ void Echiquier::initialisation() {
     plateau[7][7] = new Tour(noir, {7,7});
 }
 
-bool Echiquier::estDansEchiquier(entier x, entier y) const {
-    return ((x<=7 && x>=0) && (y<=7 && y>=0));
+bool Echiquier::estDansEchiquier(PositionPiece pos) const {
+    return ((pos.xpos<=7 && pos.xpos>=0) && (pos.ypos<=7 && pos.ypos>=0));
 }
 
 Piece* Echiquier::getPiece(PositionPiece pos) {
     return plateau[pos.xpos][pos.ypos];
+}
+
+bool Echiquier::caseVide(PositionPiece pos) {
+    return getPiece(pos)== nullptr;
+}
+
+bool Echiquier::deplacerPiece(PositionPiece depuisPos, PositionPiece versPos) {
+    if(estDansEchiquier(depuisPos)&& estDansEchiquier(versPos)) {
+        Piece *origPiece = plateau[depuisPos.xpos][depuisPos.ypos];
+        if(origPiece!= nullptr&&origPiece->coupValide(versPos)) {
+            //faire le déplacement
+            //captureBlanc.ajoutePiece(plateau[versPos.xpos][versPos.ypos]);
+
+            origPiece->setPosition(versPos);
+            plateau[versPos.xpos][versPos.ypos] = origPiece;
+            origPiece = nullptr;
+        }
+    }
+    return false;
 }
 
 /*

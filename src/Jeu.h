@@ -4,6 +4,8 @@
 
 class Jeu {
     bool EchecEtMat(); //verifie apres chaque tour si il y a un echec et mat
+
+
 };
 
 
