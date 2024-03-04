@@ -5,7 +5,7 @@ project(Echec)
 file(GLOB SOURCE_FILES ./src/*.cpp)
 file(GLOB HEADER_FILES ./src/*.h)
 
-add_executable(MyExecutable ${SOURCE_FILES} ${HEADER_FILES})
+add_executable(Echec ${SOURCE_FILES} ${HEADER_FILES})
 
 
 # La bibliotheque SFML sera Statique c'est a dire qu'elle est incluse dans les fichiers du projet.
@@ -17,4 +17,4 @@ set(SFML_STATIC_LIBRARIES TRUE)
 #include_directories(${SFML_INCLUDE_DIR})
 
 find_package(SFML COMPONENTS audio graphics window system network REQUIRED)
-target_link_libraries(MyExecutable sfml-network sfml-audio sfml-graphics sfml-window sfml-system)
+target_link_libraries(Echec sfml-network sfml-audio sfml-graphics sfml-window sfml-system)
