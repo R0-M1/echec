@@ -1,7 +1,6 @@
 #ifndef _PIECE_
 #define _PIECE_
 class Echiquier;
-//#include "Echiquier.h"
 
 enum TypePiece {pion, fou, cavalier, tour, dame, roi};
 enum CouleurPiece {blanc, noir};
