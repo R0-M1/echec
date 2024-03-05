@@ -8,6 +8,7 @@ using namespace std;
 
 int main()
 {
+
     // create the window
     sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
 
@@ -38,4 +39,5 @@ int main()
     }
 
     return 0;
+
 }
