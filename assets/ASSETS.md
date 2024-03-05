@@ -3,7 +3,6 @@ Assets du jeu (images, sons)
 
 ## Images 
 
----
 * Images des pieces : [ici](https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces)
 ![pieces](https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Chess_Pieces_Sprite.svg/1920px-Chess_Pieces_Sprite.svg.png)
 
@@ -12,7 +11,6 @@ Assets du jeu (images, sons)
 
 ## Sons
 
----
 * [Son de déplacement](http://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/move-self.mp3)
 * [Son de capture](http://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/capture.mp3)
 * [Son d'échec](http://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/move-check.mp3)
