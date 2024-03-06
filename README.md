@@ -9,9 +9,9 @@ Pour les dev aller [ici](DEVELOPER.md)
 
 ## Organisation de l'archive
 
-* `SFML` : Contient la bibliothèque graphique SFML
 * [`assets`](assets/ASSETS.md) : Où sont stockés les images, sons, ...
 * [`doc`](doc/DOCUMENTATION.md) : Contient toute la documentation du programme
+* `lib` : Contient les bibliothèques dont `SFML`
 * `src` : Contient les fichiers sources (.h et .cpp)
 
 ## Membres

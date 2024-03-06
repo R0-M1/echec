@@ -15,6 +15,7 @@ Ici vous apprendrez à utiliser le git dans votre IDE (Seulement sur VSCode pour
 2. Connecte-toi à ton compte github
 3. Choisi le bon repository dans la liste
 ![liste repo](https://code.visualstudio.com/assets/docs/sourcecontrol/github/github-repo-dropdown.png)
+4. Ensuite vous devez installer [cmake](https://cmake.org/download/) et les extensions **CMake** et **CMake Tools**
 
 ## Utilisation du git
 
