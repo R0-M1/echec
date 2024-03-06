@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.10)
 project(Echec)
 
 set(VERSION_REQUISE 13.1.0)
-#set(CMAKE_C_COMPILER ${CMAKE_SOURCE_DIR}/mingw64/bin/gcc.exe) # definit un chemin personnalisé pour le compilateur
-#set(CMAKE_CXX_COMPILER ${CMAKE_SOURCE_DIR}/mingw64/bin/g++.exe)
+set(CMAKE_C_COMPILER ${CMAKE_SOURCE_DIR}/mingw64/bin/gcc.exe) # definit un chemin personnalisé pour le compilateur
+set(CMAKE_CXX_COMPILER ${CMAKE_SOURCE_DIR}/mingw64/bin/g++.exe)
 
 if(CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL ${VERSION_REQUISE}) # verification que la version du compilateur est compatible avec SFML
 
