@@ -13,6 +13,7 @@
 class Echiquier {
 private:
     Piece* plateau[8][8]; // plateau[x][y], x correspond aux lignes et y aux colonnes. La case C1 correspond à plateau[0][2]
+    //peut etre rajouté un bool "aBougé"
 
 public:
     Echiquier();

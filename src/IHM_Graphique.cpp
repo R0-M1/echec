@@ -4,8 +4,10 @@ std::string relativePath = "../assets/images/"; //chemin du dossier images conte
 
 IHM_Graphique::IHM_Graphique(sf::RenderWindow *window) {
     this->window = window;
-    width = window->getSize().x;
-    height = window->getSize().y;
+    widthWindow = window->getSize().x;
+    heightWindow = window->getSize().y;
+    widthEchiquier = std::min(widthWindow, heightWindow);
+    heightEchiquier = std::min(widthWindow, heightWindow);
 }
 
 IHM_Graphique::~IHM_Graphique() {
@@ -16,6 +18,14 @@ void IHM_Graphique::boucleJeu() {
     chargerEchiquier();
     chargerPieces();
 
+    sprite[0]= new sf::Sprite;
+    sprite[1]= new sf::Sprite;
+    sprite[0]->setTexture(pionBlancTexture);
+    sprite[1]->setTexture(pionBlancTexture);
+
+    int n;
+
+    bool premierClic=false;
     bool isMove = false;
     float dx=0, dy=0;
     sf::Vector2i pos;
@@ -27,15 +37,18 @@ void IHM_Graphique::boucleJeu() {
             {
                 window->close();
             }
+
             if(event.type==sf::Event::MouseButtonPressed)
             {
                 if(event.mouseButton.button == sf::Mouse::Left)
                 {
-                    for (int i = 0; i <= 8; i++) {
-                        if (pionBlanc->getGlobalBounds().contains(window->mapPixelToCoords(sf::Mouse::getPosition(*window)))) {
+
+                    for (int i = 0; i < 2; i++) {
+                        if (sprite[i]->getGlobalBounds().contains(window->mapPixelToCoords(sf::Mouse::getPosition(*window)))) {
                             isMove = true;
-                            dx = pos.x - pionBlanc[i].getPosition().x;
-                            dy = pos.y - pionBlanc[i].getPosition().y;
+                            n=i;
+                            dx = pos.x - sprite[i]->getPosition().x;
+                            dy = pos.y - sprite[i]->getPosition().y;
                         }
                     }
                 }
@@ -45,37 +58,45 @@ void IHM_Graphique::boucleJeu() {
                     isMove=false;
                 }
             }
-            if (event.type == sf::Event::Resized) { //dynamic resizing
-                width = window->getSize().x;
-                height = window->getSize().y;
+            //dynamic resizing
+            if (event.type == sf::Event::Resized) {
+                widthWindow = window->getSize().x;
+                heightWindow = window->getSize().y;
 
-                echiquier.setPosition(width / 2, height / 2);
-                echiquier.setScale(1 * (std::min(width, height)) / damier.getSize().x,
-                                   1 * (std::min(width, height)) / damier.getSize().y);
+                echiquier.setPosition(widthWindow / 2, heightWindow / 2);
+                echiquier.scale(1 * (std::min(widthWindow, heightWindow)) / widthEchiquier,
+                                1 * (std::min(widthWindow, heightWindow)) / heightEchiquier);
 
-                for(int i=0; i<=8; i++) {
-                    pionBlanc[i].setPosition(width / 2, height / 2);
-                    pionBlanc[i].setScale(echiquier.getGlobalBounds().width / (8*pionBlancTexture.getSize().x),
-                                          echiquier.getGlobalBounds().height / (8*pionBlancTexture.getSize().x));
+                widthEchiquier = echiquier.getGlobalBounds().width;
+                heightEchiquier = echiquier.getGlobalBounds().height;
+
+                for(int i=0; i<2; i++) {
+                    if(sprite!= nullptr) {
+                        widthCase = widthEchiquier / 8;
+                        heightCase = heightEchiquier / 8;
+                        sprite[i]->setScale(widthEchiquier / (8 * sprite[i]->getGlobalBounds().width),
+                                            widthEchiquier / (8 * sprite[i]->getGlobalBounds().width));
+                    }
                 }
+
+                widthCase = widthEchiquier/8;
+                heightCase = heightEchiquier/8;
 
                 sf::FloatRect view(0, 0, event.size.width, event.size.height);
                 window->setView(sf::View(view));
             }
         }
-        for(int i=0; i<=8; i++) {
-            if (isMove) {
-                pionBlanc[i].setPosition(pos.x - dx, pos.y - dy);
-            }
+
+        if (isMove) {
+            sprite[n]->setPosition(pos.x - dx, pos.y - dy);
         }
+
 
         window->clear(sf::Color::Cyan);
         window->draw(echiquier);
-        for(int i=0; i<7;i++) {
-            pionBlanc[i].setTexture(pionBlancTexture);
-            window->draw(pionBlanc[i]);
-            //window->draw(pionNoir[i]);
-        }
+        window->draw(*sprite[0]);
+        window->draw(*sprite[1]);
+
         window->display();
     }
 }
@@ -85,9 +106,8 @@ void IHM_Graphique::chargerEchiquier() {
 
     echiquier.setTexture(damier);
     echiquier.setOrigin(echiquier.getLocalBounds().width/2,echiquier.getLocalBounds().height/2);
-    echiquier.setPosition(width/2,height/2);
-    echiquier.setScale(1 * height / damier.getSize().x,
-                       1 * height / damier.getSize().y);
+    echiquier.setPosition(widthWindow/2,heightWindow/2);
+    echiquier.scale(widthWindow / damier.getSize().x,heightWindow / damier.getSize().y);
 }
 
 void IHM_Graphique::chargerPieces() {
@@ -116,11 +136,15 @@ void IHM_Graphique::chargerPieces() {
     if (!roiNoirTexture.loadFromFile(relativePath + "roiNoir.png"))
         std::cout << "failed to load roiNoir" << std::endl;
 
-    for(int i=0; i<=8; i++) {
-        //configSprite(pionBlanc[i], pionBlancTexture);
+
+
+
+    /*
+    for(int i=0; i<8; i++) {
+        configSprite(pionBlanc[i], pionBlancTexture);
         configSprite(pionNoir[i], pionNoirTexture);
     }
-    for(int i=0; i<=1; i++) {
+    for(int i=0; i<2; i++) {
         configSprite(tourBlanc[i], tourBlancTexture);
         configSprite(tourNoir[i], tourNoirTexture);
         configSprite(chevalierBlanc[i], chevalierBlancTexture);
@@ -132,17 +156,18 @@ void IHM_Graphique::chargerPieces() {
     configSprite(dameNoir, dameNoirTexture);
     configSprite(roiBlanc, roiBlancTexture);
     configSprite(roiNoir, roiNoirTexture);
+    */
 }
 
-void IHM_Graphique::configSprite(sf::Sprite& spr, sf::Texture tex) {
-    spr.setTexture(tex);
-    spr.setOrigin(spr.getGlobalBounds().width/2,spr.getGlobalBounds().height/2);
-    spr.setScale(echiquier.getGlobalBounds().width/(8*tex.getSize().x),
-                 echiquier.getGlobalBounds().height/(8*tex.getSize().x));
+void IHM_Graphique::configSprite(sf::Sprite *spr, const sf::Texture& texture, sf::Vector2i position, sf::Vector2f scale) {
+    spr->setTexture(texture);
+    spr->setOrigin(spr->getGlobalBounds().width/2,spr->getGlobalBounds().height/2);
+    spr->setScale(echiquier.getGlobalBounds().width/(8*texture.getSize().x),
+                 echiquier.getGlobalBounds().height/(8*texture.getSize().x));
 }
 
 void IHM_Graphique::refreshSprite(sf::Sprite& spr) {
-    spr.setPosition(width/2,height/2);
+    spr.setPosition(widthWindow/2,heightWindow/2);
     spr.setScale(echiquier.getGlobalBounds().width/(8*pionBlancTexture.getSize().x),
                  echiquier.getGlobalBounds().height/(8*pionBlancTexture.getSize().x));
 }
