@@ -9,7 +9,7 @@ Jeu::Jeu(sf::RenderWindow *window) {
 }
 
 void Jeu::demarrer() {
-    affichage->afficheEchiquier();
+    //affichage->afficheEchiquier();
 
 
 }

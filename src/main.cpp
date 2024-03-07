@@ -11,15 +11,13 @@ using namespace std;
 // pour changer entre un mode console et un mode graphique
 //#define MODE_GRAPHIQUE true
 
+
 int main()
 {
-
     string titre = "Jeu d'echec";
 
-    sf::RenderWindow window(sf::VideoMode(1500, 800), titre,sf::Style::Default);
+    sf::RenderWindow window(sf::VideoMode(800, 800), titre,sf::Style::Default);
     window.setVerticalSyncEnabled(true);
-
-
 
 
     while (window.isOpen())
@@ -32,21 +30,16 @@ int main()
             }
             if(event.type==sf::Event::MouseButtonPressed)
             {
-                Jeu* jeu = new Jeu(&window);
+                IHM_Graphique ihm(&window);
 
-                jeu->demarrer();
-
+                ihm.boucleJeu();
             }
         }
 
 
         window.clear(sf::Color::Blue);
 
-        //draw here
         window.display();
-
     }
-
     return 0;
-
 }
