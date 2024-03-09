@@ -22,6 +22,7 @@ IHM_Graphique::~IHM_Graphique() {
 void IHM_Graphique::boucleJeu() {
     chargerEchiquier();
     chargerPieces();
+    chargerMusique();
     jeu.initialisation_Echiquier();
 
 
@@ -64,9 +65,12 @@ void IHM_Graphique::boucleJeu() {
                                                   newIntPos.y * tailleCase + tailleCase / 2) + baseEchiquier;
                             sprite[n].setPosition(newPos);
                             jeu.changer_couleur();
+
+                            move.play();
                         } else {
                             sprite[n].setPosition(oldPos);
 
+                            illegal.play();
                         }
                     }
                 }
@@ -190,5 +194,18 @@ void IHM_Graphique::refreshSprite() {
     tailleCase=tailleEchiquier/8;
 
     baseEchiquier = echiquier.getPosition() - sf::Vector2f(tailleEchiquier/2,tailleEchiquier/2);
+}
+
+void IHM_Graphique::chargerMusique() {
+    move.openFromFile(relativePath+"sons/move.wav");
+    illegal.openFromFile(relativePath+"sons/illegal.wav");
+    capture.openFromFile(relativePath+"sons/capture.wav");
+    gameStart.openFromFile(relativePath+"sons/game-start.wav");
+    gameEnd.openFromFile(relativePath+"sons/game-end.wav");
+    moveCheck.openFromFile(relativePath+"sons/move-check.wav");
+    notify.openFromFile(relativePath+"sons/notify.wav");
+    promote.openFromFile(relativePath+"sons/promote.wav");
+    castle.openFromFile(relativePath+"sons/castle.wav");
+    tenseconds.openFromFile(relativePath+"sons/tenseconds.wav");
 }
 

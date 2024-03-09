@@ -38,10 +38,22 @@ private:
     sf::Texture dameNoirTexture;
     sf::Texture pionNoirTexture;
 
+    sf::Music move;
+    sf::Music illegal;
+    sf::Music capture;
+    sf::Music gameStart;
+    sf::Music gameEnd;
+    sf::Music moveCheck;
+    sf::Music notify;
+    sf::Music promote;
+    sf::Music castle;
+    sf::Music tenseconds;
+
     void chargerEchiquier();
     void chargerPieces();
     void configPiece(sf::Sprite &spr, sf::Texture& texture, float x, float y) const;
     void refreshSprite();
+    void chargerMusique();
 public:
     IHM_Graphique(sf::RenderWindow& window);
     ~IHM_Graphique();
