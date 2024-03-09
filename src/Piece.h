@@ -1,35 +1,24 @@
 #ifndef _PIECE_
 #define _PIECE_
+
+
+
 class Echiquier;
 
-enum TypePiece {pion, fou, cavalier, tour, dame, roi};
-enum CouleurPiece {blanc, noir};
-
+enum type_piece {pion, fou, cavalier, tour, dame, roi, vide};
 typedef unsigned short int entier;
 
-typedef struct Coordonnees {
-    entier xpos;
-    entier ypos;
-} PositionPiece;
+class Piece
+{
+    public:
+        bool couleur;
+        type_piece id;
+        Piece(bool co);
 
-
-
-class Piece {
-public:
-    Piece();
-    ~Piece();
-
-    CouleurPiece getCouleur();
-    PositionPiece getPosition();
-    TypePiece getType();
-    void setPosition(PositionPiece pos);
-    virtual bool coupValide(PositionPiece versPos) = 0;
-
-protected:
-    CouleurPiece couleur;
-    TypePiece type;
-    PositionPiece position;
-    Echiquier* echiquier;
+        virtual bool coup_valide(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup, const Echiquier& echiquier)const;
+        bool get_couleur()const;
+        type_piece get_id()const;
+        
 };
 
 

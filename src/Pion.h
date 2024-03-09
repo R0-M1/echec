@@ -2,18 +2,15 @@
 #define ECHEC_PION_H
 
 #include "Piece.h"
+#include "Echiquier.h"
 
-class Pion : public Piece {
-public:
-    Pion(CouleurPiece c, PositionPiece p, Echiquier *e);
-    ~Pion();
+class Pion :public Piece {
 
-    bool coupValide(PositionPiece versPos);
+    public:
+        Pion(bool co);
+        bool coup_valide(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup, const Echiquier& echiquier)const;
 
-private:
-    bool doubleMouvement;
 };
-
 
 
 #endif

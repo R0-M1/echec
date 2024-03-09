@@ -5,34 +5,23 @@
 #include "SFML/Window.hpp"
 #include "SFML/System.hpp"
 #include <iostream>
-
+#include "Jeu.h"
 
 
 class IHM_Graphique {
 private:
+    Jeu jeu;
+
     float widthWindow;
     float heightWindow;
-    unsigned int widthEchiquier;
-    unsigned int heightEchiquier;
-    unsigned int widthCase;
-    unsigned int heightCase;
+    float tailleEchiquier;
+    float tailleCase;
+    sf::Vector2f baseEchiquier;
     sf::RenderWindow *window;
 
     sf::Sprite echiquier;
-    sf::Sprite* sprite[32];
-    /*
-    sf::Sprite* pionBlanc[8];
-    sf::Sprite* pionNoir[8];
-    sf::Sprite* tourBlanc[2];
-    sf::Sprite* tourNoir[2];
-    sf::Sprite* chevalierBlanc[2];
-    sf::Sprite* chevalierNoir[2];
-    sf::Sprite* fouBlanc[2];
-    sf::Sprite* fouNoir[2];
-    sf::Sprite* roiBlanc;
-    sf::Sprite* roiNoir;
-    sf::Sprite* dameBlanc;
-    sf::Sprite* dameNoir;*/
+    sf::Sprite* sprite;
+    bool* statique;
 
     sf::Texture damier;
     sf::Texture tourBlancTexture;
@@ -50,12 +39,10 @@ private:
 
     void chargerEchiquier();
     void chargerPieces();
-    void configPiece();
-    void refreshPiece();
-    void configSprite(sf::Sprite *spr, const sf::Texture& texture, sf::Vector2i position, sf::Vector2f scale);
-    void refreshSprite(sf::Sprite& spr);
+    void configPiece(sf::Sprite &spr, sf::Texture& texture, float x, float y) const;
+    void refreshSprite();
 public:
-    IHM_Graphique(sf::RenderWindow *window);
+    IHM_Graphique(sf::RenderWindow& window);
     ~IHM_Graphique();
     void boucleJeu();
 

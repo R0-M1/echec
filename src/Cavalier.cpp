@@ -1,18 +1,14 @@
 #include "Cavalier.h"
 
-Cavalier::Cavalier(CouleurPiece c, PositionPiece p) {
-    type = cavalier;
-    couleur = c;
-    position = p;
+
+
+Cavalier::Cavalier(bool co):Piece(co){
+    id = cavalier;
 }
 
-Cavalier::~Cavalier() {
+bool Cavalier::coup_valide(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup, const Echiquier& echiquier) const{
 
-}
-
-/* Vérifie si la piece peut se déplacer vers la destination
- * Renvoie un bool (Mouvement valide : true, Mouvement non valide : false)
- */
-bool Cavalier::coupValide(PositionPiece versPos) {
-    return false;
+    return (echiquier.est_dans_Echiquier(x_coup, y_coup) && 
+    ((((x_coup-x_actuel)*(x_coup-x_actuel))==4 && ((y_coup-y_actuel)*(y_coup-y_actuel))==1) || 
+    ((((x_coup-x_actuel)*(x_coup-x_actuel))==1 && ((y_coup-y_actuel)*(y_coup-y_actuel)==4) ))));
 }

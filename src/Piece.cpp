@@ -1,29 +1,18 @@
 #include "Piece.h"
 
-Piece::Piece() {
+
+Piece::Piece(bool co):couleur(co){}
+
+bool Piece::coup_valide(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup, const Echiquier& echiquier)const {
+    return 1;
 }
 
-Piece::~Piece() {
+bool Piece::get_couleur()const{
+        return couleur;
+    }
+
+
+type_piece Piece::get_id()const{
+    return id;
 }
-
-CouleurPiece Piece::getCouleur() {
-    return couleur;
-}
-
-PositionPiece Piece::getPosition() {
-    return position;
-}
-
-TypePiece Piece::getType() {
-    return type;
-}
-
-void Piece::setPosition(PositionPiece pos) {
-    position = pos;
-}
-
-
-
-
-
 

@@ -1,108 +1,100 @@
 #include "IHM_Graphique.h"
 
+
 std::string relativePath = "../assets/images/"; //chemin du dossier images contenant toutes les images
 
-IHM_Graphique::IHM_Graphique(sf::RenderWindow *window) {
-    this->window = window;
-    widthWindow = window->getSize().x;
-    heightWindow = window->getSize().y;
-    widthEchiquier = std::min(widthWindow, heightWindow);
-    heightEchiquier = std::min(widthWindow, heightWindow);
+IHM_Graphique::IHM_Graphique(sf::RenderWindow& window) {
+    this->window = &window;
+    widthWindow = window.getSize().x;
+    heightWindow = window.getSize().y;
+    tailleEchiquier = std::min(widthWindow, heightWindow);
+    tailleCase = tailleEchiquier / 8;
+    sprite = new sf::Sprite[32];
+    statique = new bool[32];
 }
 
-IHM_Graphique::~IHM_Graphique() {
 
+IHM_Graphique::~IHM_Graphique() {
+    delete[] sprite;
+    sprite = nullptr;
 }
 
 void IHM_Graphique::boucleJeu() {
     chargerEchiquier();
     chargerPieces();
 
-    sprite[0]= new sf::Sprite;
-    sprite[1]= new sf::Sprite;
-    sprite[0]->setTexture(pionBlancTexture);
-    sprite[1]->setTexture(pionBlancTexture);
 
-    int n;
-
+    baseEchiquier = echiquier.getPosition() - sf::Vector2f(tailleEchiquier/2,tailleEchiquier/2);
+    sf::Vector2i oldIntPos, newIntPos;
+    sf::Vector2f oldPos, newPos;
+    int n = -1;
     bool premierClic=false;
-    bool isMove = false;
-    float dx=0, dy=0;
-    sf::Vector2i pos;
+    bool bouge = false;
+    sf::Vector2i souris;
     while(window->isOpen()) {
-        sf::Vector2i pos = sf::Mouse::getPosition(*window);
+        souris = sf::Mouse::getPosition(*window);
         sf::Event event;
         while (window->pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-            {
-                window->close();
-            }
-
-            if(event.type==sf::Event::MouseButtonPressed)
-            {
-                if(event.mouseButton.button == sf::Mouse::Left)
-                {
-
-                    for (int i = 0; i < 2; i++) {
-                        if (sprite[i]->getGlobalBounds().contains(window->mapPixelToCoords(sf::Mouse::getPosition(*window)))) {
-                            isMove = true;
+            if(event.type == sf::Event::Closed) window->close();
+            if(event.type==sf::Event::MouseButtonPressed) {
+                if(event.mouseButton.button == sf::Mouse::Left) {
+                    for (int i = 0; i < 32; i++) {
+                        if (sprite[i].getGlobalBounds().contains(window->mapPixelToCoords(souris))) {
+                            bouge = true;
                             n=i;
-                            dx = pos.x - sprite[i]->getPosition().x;
-                            dy = pos.y - sprite[i]->getPosition().y;
+                            oldIntPos = sf::Vector2i(int((sprite[n].getPosition().x - baseEchiquier.x) * 8 / tailleEchiquier),
+                                                     int((sprite[n].getPosition().y - baseEchiquier.y) * 8 / tailleEchiquier));
+                            oldPos = sf::Vector2f(oldIntPos.x * tailleCase + tailleCase / 2,
+                                                  oldIntPos.y * tailleCase + tailleCase / 2) + baseEchiquier;
                         }
                     }
                 }
             }
             if(event.type==sf::Event::MouseButtonReleased) {
                 if(event.mouseButton.button == sf::Mouse::Left) {
-                    isMove=false;
+                    if(n!=-1) {
+                        bouge = false;
+                        newIntPos = sf::Vector2i(int((sprite[n].getPosition().x - baseEchiquier.x) * 8 / tailleEchiquier),
+                                                 int((sprite[n].getPosition().y - baseEchiquier.y) * 8 / tailleEchiquier));
+                        std::cout<<jeu.coup(7-oldIntPos.y, oldIntPos.x, 7-newIntPos.y, newIntPos.x)<<std::endl;
+                        std::cout<<oldIntPos.x<< 7-oldIntPos.y<< newIntPos.x<< 7-newIntPos.y<<std::endl;
+                        if(jeu.coup(oldIntPos.x, oldIntPos.y, newIntPos.x, newIntPos.y)) {
+                            newPos = sf::Vector2f(newIntPos.x * tailleCase + tailleCase / 2,
+                                                  newIntPos.y * tailleCase + tailleCase / 2) + baseEchiquier;
+                            sprite[n].setPosition(newPos);
+                        } else {
+                            sprite[n].setPosition(oldPos);
+                        }
+                    }
                 }
             }
             //dynamic resizing
             if (event.type == sf::Event::Resized) {
-                widthWindow = window->getSize().x;
-                heightWindow = window->getSize().y;
-
-                echiquier.setPosition(widthWindow / 2, heightWindow / 2);
-                echiquier.scale(1 * (std::min(widthWindow, heightWindow)) / widthEchiquier,
-                                1 * (std::min(widthWindow, heightWindow)) / heightEchiquier);
-
-                widthEchiquier = echiquier.getGlobalBounds().width;
-                heightEchiquier = echiquier.getGlobalBounds().height;
-
-                for(int i=0; i<2; i++) {
-                    if(sprite!= nullptr) {
-                        widthCase = widthEchiquier / 8;
-                        heightCase = heightEchiquier / 8;
-                        sprite[i]->setScale(widthEchiquier / (8 * sprite[i]->getGlobalBounds().width),
-                                            widthEchiquier / (8 * sprite[i]->getGlobalBounds().width));
-                    }
-                }
-
-                widthCase = widthEchiquier/8;
-                heightCase = heightEchiquier/8;
+                refreshSprite();
 
                 sf::FloatRect view(0, 0, event.size.width, event.size.height);
                 window->setView(sf::View(view));
             }
         }
-
-        if (isMove) {
-            sprite[n]->setPosition(pos.x - dx, pos.y - dy);
+        if (bouge) {
+            sprite[n].setPosition(souris.x, souris.y);
         }
-
 
         window->clear(sf::Color::Cyan);
         window->draw(echiquier);
-        window->draw(*sprite[0]);
-        window->draw(*sprite[1]);
+
+        for(int i=0; i<32; i++) {
+            if(i!=n) window->draw(sprite[i]);
+        }
+        if(n!=-1) window->draw(sprite[n]);
 
         window->display();
     }
 }
 
 void IHM_Graphique::chargerEchiquier() {
-    if (!damier.loadFromFile(relativePath + "echiquier.png")) std::cout << "failed to load echiquier" << std::endl;
+    if (!damier.loadFromFile(relativePath + "echiquier.png", sf::IntRect(0, 0, 1166, 1166)))
+        std::cout << "failed to load echiquier" << std::endl;
 
     echiquier.setTexture(damier);
     echiquier.setOrigin(echiquier.getLocalBounds().width/2,echiquier.getLocalBounds().height/2);
@@ -110,6 +102,7 @@ void IHM_Graphique::chargerEchiquier() {
     echiquier.scale(widthWindow / damier.getSize().x,heightWindow / damier.getSize().y);
 }
 
+//fonction qui charge les textures et place les pieces à la bonne position
 void IHM_Graphique::chargerPieces() {
     if (!pionBlancTexture.loadFromFile(relativePath + "pionBlanc.png"))
         std::cout << "failed to load pionBlanc" << std::endl;
@@ -139,36 +132,60 @@ void IHM_Graphique::chargerPieces() {
 
 
 
-    /*
+    configPiece(sprite[0], tourBlancTexture, tailleCase/2,tailleCase/2+tailleCase*7);
+    configPiece(sprite[24], tourNoirTexture, tailleCase/2, tailleCase/2);
+    configPiece(sprite[1], chevalierBlancTexture, tailleCase/2+tailleCase, tailleCase/2+tailleCase*7);
+    configPiece(sprite[25], chevalierNoirTexture, tailleCase/2+tailleCase, tailleCase/2);
+    configPiece(sprite[2], fouBlancTexture, tailleCase/2+tailleCase*2, tailleCase/2+tailleCase*7);
+    configPiece(sprite[26], fouNoirTexture, tailleCase/2+tailleCase*2, tailleCase/2);
+    configPiece(sprite[3], dameBlancTexture, tailleCase/2+tailleCase*3, tailleCase/2+tailleCase*7);
+    configPiece(sprite[27], dameNoirTexture, tailleCase/2+tailleCase*3, tailleCase/2);
+    configPiece(sprite[4], roiBlancTexture, tailleCase/2+tailleCase*4, tailleCase/2+tailleCase*7);
+    configPiece(sprite[28], roiNoirTexture, tailleCase/2+tailleCase*4, tailleCase/2);
+    configPiece(sprite[5], fouBlancTexture, tailleCase/2+tailleCase*5, tailleCase/2+tailleCase*7);
+    configPiece(sprite[29], fouNoirTexture, tailleCase/2+tailleCase*5, tailleCase/2);
+    configPiece(sprite[6], chevalierBlancTexture, tailleCase/2+tailleCase*6, tailleCase/2+tailleCase*7);
+    configPiece(sprite[30], chevalierNoirTexture, tailleCase/2+tailleCase*6, tailleCase/2);
+    configPiece(sprite[7], tourBlancTexture, tailleCase/2+tailleCase*7, tailleCase/2+tailleCase*7);
+    configPiece(sprite[31], tourNoirTexture, tailleCase/2+tailleCase*7, tailleCase/2);
+
     for(int i=0; i<8; i++) {
-        configSprite(pionBlanc[i], pionBlancTexture);
-        configSprite(pionNoir[i], pionNoirTexture);
+        configPiece(sprite[i+8], pionBlancTexture, tailleCase/2+tailleCase*i, tailleCase/2+tailleCase*6);
+        configPiece(sprite[i+16], pionNoirTexture, tailleCase/2+tailleCase*i, tailleCase/2+tailleCase*1);
     }
-    for(int i=0; i<2; i++) {
-        configSprite(tourBlanc[i], tourBlancTexture);
-        configSprite(tourNoir[i], tourNoirTexture);
-        configSprite(chevalierBlanc[i], chevalierBlancTexture);
-        configSprite(chevalierNoir[i], chevalierNoirTexture);
-        configSprite(fouBlanc[i], fouBlancTexture);
-        configSprite(fouNoir[i], fouNoirTexture);
-    }
-    configSprite(dameBlanc, dameBlancTexture);
-    configSprite(dameNoir, dameNoirTexture);
-    configSprite(roiBlanc, roiBlancTexture);
-    configSprite(roiNoir, roiNoirTexture);
-    */
 }
 
-void IHM_Graphique::configSprite(sf::Sprite *spr, const sf::Texture& texture, sf::Vector2i position, sf::Vector2f scale) {
-    spr->setTexture(texture);
-    spr->setOrigin(spr->getGlobalBounds().width/2,spr->getGlobalBounds().height/2);
-    spr->setScale(echiquier.getGlobalBounds().width/(8*texture.getSize().x),
-                 echiquier.getGlobalBounds().height/(8*texture.getSize().x));
+void IHM_Graphique::configPiece(sf::Sprite &spr, sf::Texture& texture, float x, float y) const {
+    texture.setSmooth(true);
+    spr.setTexture(texture);
+    spr.setOrigin(spr.getGlobalBounds().width/2,spr.getGlobalBounds().height/2);
+    spr.setPosition(x, y);
+    spr.setScale(sf::Vector2f(tailleEchiquier / (8 * texture.getSize().x),
+                                     tailleEchiquier / (8 * texture.getSize().x)));
 }
 
-void IHM_Graphique::refreshSprite(sf::Sprite& spr) {
-    spr.setPosition(widthWindow/2,heightWindow/2);
-    spr.setScale(echiquier.getGlobalBounds().width/(8*pionBlancTexture.getSize().x),
-                 echiquier.getGlobalBounds().height/(8*pionBlancTexture.getSize().x));
+// fonction permettant de repositionner & redimensionner les sprites apres un resize de la fenetre.
+void IHM_Graphique::refreshSprite() {
+    sf::Vector2u newWindowSize = sf::Vector2u(window->getSize().x, window->getSize().y);
+    float newSize = std::min(newWindowSize.x,newWindowSize.y);
+    float oldSize = std::min(widthWindow, heightWindow);
+    float scale = newSize / oldSize;
+    sf::Vector2f oldEchiquierPos = echiquier.getPosition();
+
+    echiquier.setPosition(newWindowSize.x / 2, newWindowSize.y / 2);
+    echiquier.scale(scale, scale);
+
+    tailleEchiquier = newSize;
+
+    for(int i=0; i<32; i++) {
+        sprite[i].setPosition((newWindowSize.x/2)-scale*(oldEchiquierPos.x-sprite[i].getPosition().x),(newWindowSize.y/2)-scale*(oldEchiquierPos.y-sprite[i].getPosition().y));
+
+        sprite[i].scale(scale, scale);
+    }
+    widthWindow = newWindowSize.x;
+    heightWindow = newWindowSize.y;
+    tailleCase=tailleEchiquier/8;
+
+    baseEchiquier = echiquier.getPosition() - sf::Vector2f(tailleEchiquier/2,tailleEchiquier/2);
 }
 

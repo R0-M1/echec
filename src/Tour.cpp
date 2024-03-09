@@ -1,13 +1,12 @@
 #include "Tour.h"
 
-Tour::Tour(CouleurPiece c, PositionPiece p) {
-
+Tour::Tour(bool co):Piece(co){
+    id = tour;
 }
 
-Tour::~Tour() {
+bool Tour::coup_valide(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup, const Echiquier& echiquier)const{
 
+    return (
+        (echiquier.coup_valide_horizontal(x_actuel, y_actuel, x_coup, y_coup) || echiquier.coup_valide_vertical(x_actuel, y_actuel, x_coup, y_coup)));
 }
 
-bool Tour::coupValide(PositionPiece versPos) {
-    return false;
-}

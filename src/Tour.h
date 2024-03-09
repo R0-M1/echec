@@ -1,14 +1,15 @@
 #ifndef ECHEC_TOUR_H
 #define ECHEC_TOUR_H
 
+#include "Echiquier.h"
 #include "Piece.h"
 
-class Tour : public Piece {
-public:
-    Tour(CouleurPiece c, PositionPiece p);
-    ~Tour();
 
-    bool coupValide(PositionPiece versPos);
+class Tour: public Piece {
+
+    public:
+        Tour(bool co);
+        bool coup_valide(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup, const Echiquier& echiquier)const;
 };
 
 

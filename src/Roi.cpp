@@ -1,15 +1,16 @@
 #include "Roi.h"
 
-Roi::Roi(CouleurPiece c, PositionPiece p) {
-    type = roi;
-    couleur = c;
-    position = p;
+Roi::Roi(bool co):Piece(co){
+    id = roi;
 }
 
-Roi::~Roi() {
+bool Roi::coup_valide(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup, const Echiquier& echiquier) const {
+    //Roque 
+    //En passant
+    
+    return ( echiquier.est_dans_Echiquier(x_coup, y_coup) && (((x_coup-x_actuel)*(x_coup-x_actuel))==1) || (((y_coup-y_actuel)*(y_coup-y_actuel))==1));
 
 }
 
-bool Roi::coupValide(PositionPiece versPos) {
-    return false;
-}
+
+
