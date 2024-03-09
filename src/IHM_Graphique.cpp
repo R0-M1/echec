@@ -1,7 +1,7 @@
 #include "IHM_Graphique.h"
 
 
-std::string relativePath = "../assets/images/"; //chemin du dossier images contenant toutes les images
+std::string relativePath = "../assets/"; //chemin du dossier images contenant toutes les images
 
 IHM_Graphique::IHM_Graphique(sf::RenderWindow& window) {
     this->window = &window;
@@ -22,6 +22,7 @@ IHM_Graphique::~IHM_Graphique() {
 void IHM_Graphique::boucleJeu() {
     chargerEchiquier();
     chargerPieces();
+    jeu.initialisation_Echiquier();
 
 
     baseEchiquier = echiquier.getPosition() - sf::Vector2f(tailleEchiquier/2,tailleEchiquier/2);
@@ -56,14 +57,16 @@ void IHM_Graphique::boucleJeu() {
                         bouge = false;
                         newIntPos = sf::Vector2i(int((sprite[n].getPosition().x - baseEchiquier.x) * 8 / tailleEchiquier),
                                                  int((sprite[n].getPosition().y - baseEchiquier.y) * 8 / tailleEchiquier));
-                        std::cout<<jeu.coup(7-oldIntPos.y, oldIntPos.x, 7-newIntPos.y, newIntPos.x)<<std::endl;
-                        std::cout<<oldIntPos.x<< 7-oldIntPos.y<< newIntPos.x<< 7-newIntPos.y<<std::endl;
-                        if(jeu.coup(oldIntPos.x, oldIntPos.y, newIntPos.x, newIntPos.y)) {
+
+                        std::cout<<oldIntPos.x<<" "<< 7-oldIntPos.y<<" -> "<< newIntPos.x<<" "<< 7-newIntPos.y<<std::endl;
+                        if(jeu.coup(oldIntPos.x,7-oldIntPos.y, newIntPos.x, 7-newIntPos.y)) {
                             newPos = sf::Vector2f(newIntPos.x * tailleCase + tailleCase / 2,
                                                   newIntPos.y * tailleCase + tailleCase / 2) + baseEchiquier;
                             sprite[n].setPosition(newPos);
+                            jeu.changer_couleur();
                         } else {
                             sprite[n].setPosition(oldPos);
+
                         }
                     }
                 }
@@ -93,7 +96,7 @@ void IHM_Graphique::boucleJeu() {
 }
 
 void IHM_Graphique::chargerEchiquier() {
-    if (!damier.loadFromFile(relativePath + "echiquier.png", sf::IntRect(0, 0, 1166, 1166)))
+    if (!damier.loadFromFile(relativePath + "images/echiquier.png", sf::IntRect(0, 0, 1166, 1166)))
         std::cout << "failed to load echiquier" << std::endl;
 
     echiquier.setTexture(damier);
@@ -104,29 +107,29 @@ void IHM_Graphique::chargerEchiquier() {
 
 //fonction qui charge les textures et place les pieces à la bonne position
 void IHM_Graphique::chargerPieces() {
-    if (!pionBlancTexture.loadFromFile(relativePath + "pionBlanc.png"))
+    if (!pionBlancTexture.loadFromFile(relativePath + "images/pionBlanc.png"))
         std::cout << "failed to load pionBlanc" << std::endl;
-    if (!pionNoirTexture.loadFromFile(relativePath + "pionNoir.png"))
+    if (!pionNoirTexture.loadFromFile(relativePath + "images/pionNoir.png"))
         std::cout << "failed to load pionNoir" << std::endl;
-    if (!tourBlancTexture.loadFromFile(relativePath + "tourBlanc.png"))
+    if (!tourBlancTexture.loadFromFile(relativePath + "images/tourBlanc.png"))
         std::cout << "failed to load tourBlanc" << std::endl;
-    if (!tourNoirTexture.loadFromFile(relativePath + "tourNoir.png"))
+    if (!tourNoirTexture.loadFromFile(relativePath + "images/tourNoir.png"))
         std::cout << "failed to load tourNoir" << std::endl;
-    if (!chevalierBlancTexture.loadFromFile(relativePath + "chevalierBlanc.png"))
+    if (!chevalierBlancTexture.loadFromFile(relativePath + "images/chevalierBlanc.png"))
         std::cout << "failed to load chevalierBlanc" << std::endl;
-    if (!chevalierNoirTexture.loadFromFile(relativePath + "chevalierNoir.png"))
+    if (!chevalierNoirTexture.loadFromFile(relativePath + "images/chevalierNoir.png"))
         std::cout << "failed to load chevalierNoir" << std::endl;
-    if (!fouBlancTexture.loadFromFile(relativePath + "fouBlanc.png"))
+    if (!fouBlancTexture.loadFromFile(relativePath + "images/fouBlanc.png"))
         std::cout << "failed to load fouBlanc" << std::endl;
-    if (!fouNoirTexture.loadFromFile(relativePath + "fouNoir.png"))
+    if (!fouNoirTexture.loadFromFile(relativePath + "images/fouNoir.png"))
         std::cout << "failed to load fouNoir" << std::endl;
-    if (!dameBlancTexture.loadFromFile(relativePath + "dameBlanc.png"))
+    if (!dameBlancTexture.loadFromFile(relativePath + "images/dameBlanc.png"))
         std::cout << "failed to load dameBlanc" << std::endl;
-    if (!dameNoirTexture.loadFromFile(relativePath + "dameNoir.png"))
+    if (!dameNoirTexture.loadFromFile(relativePath + "images/dameNoir.png"))
         std::cout << "failed to load dameNoir" << std::endl;
-    if (!roiBlancTexture.loadFromFile(relativePath + "roiBlanc.png"))
+    if (!roiBlancTexture.loadFromFile(relativePath + "images/roiBlanc.png"))
         std::cout << "failed to load roiBlanc" << std::endl;
-    if (!roiNoirTexture.loadFromFile(relativePath + "roiNoir.png"))
+    if (!roiNoirTexture.loadFromFile(relativePath + "images/roiNoir.png"))
         std::cout << "failed to load roiNoir" << std::endl;
 
 

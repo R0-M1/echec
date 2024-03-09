@@ -30,9 +30,9 @@ void IHM_console::boucle_Jeu()
     bool coup, reste = true;
     jeu.initialisation_Echiquier();
     int x_actuel, y_actuel, x_coup, y_coup;
+    afficher_echiquier();
     while (reste)
     {
-        afficher_echiquier();
         do
         {
             
@@ -45,8 +45,8 @@ void IHM_console::boucle_Jeu()
         } while (!coup);
 
         jeu.changer_couleur();
-
-        cout << "tapez 0 pour arreter" << endl;
+        afficher_echiquier();
+        cout << "tapez 1 pour continuer ou 0 pour arreter" << endl;
         cin >> reste;
     }
 }

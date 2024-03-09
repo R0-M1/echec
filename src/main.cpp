@@ -2,16 +2,20 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
+#include "SFML/Audio.hpp"
 #include "IHM_Graphique.h"
 #include "IHM_console.h"
 
 using namespace std;
 
 // pour changer entre un mode console et un mode graphique
-#define MODE_GRAPHIQUE false
+//#define MODE_GRAPHIQUE true
 
 
 int main() {
+    bool MODE_GRAPHIQUE = true;
+    cout<<"mode graphique ? (1)oui (0)non"<<endl;
+    cin>>MODE_GRAPHIQUE;
     if (!MODE_GRAPHIQUE) {
         IHM_console ihm;
         ihm.boucle_Jeu();
