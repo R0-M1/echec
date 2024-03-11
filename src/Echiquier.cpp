@@ -22,11 +22,11 @@ Echiquier::~Echiquier()
 
     for (entier i = 0; i < 8; i++)
         for (entier j = 0; j < 8; j++)
-            if (presence_piece(i, j))
+            if (presencePiece(i, j))
                 delete plateau[i][j];
 }
 
-void Echiquier::initialisation_Echiquier() //a corriger (new utilisé plusieurs fois sur la meme piece)
+void Echiquier::initialisation() //a corriger (new utilisé plusieurs fois sur la meme piece)
 {
     entier i, j;
     for (i = 0; i < 8; i++)
@@ -59,7 +59,7 @@ void Echiquier::initialisation_Echiquier() //a corriger (new utilisé plusieurs 
     yRoi_blanc = 0;
 }
 
-entier Echiquier::get_xRoi(bool co) const
+entier Echiquier::getXRoi(bool co) const
 {
     if (co)
         return xRoi_noir;
@@ -67,7 +67,7 @@ entier Echiquier::get_xRoi(bool co) const
         return xRoi_blanc;
 }
 
-entier Echiquier::get_yRoi(bool co) const
+entier Echiquier::getYRoi(bool co) const
 {
     if (co)
         return yRoi_noir;
@@ -75,135 +75,135 @@ entier Echiquier::get_yRoi(bool co) const
         return yRoi_blanc;
 }
 
-type_piece Echiquier::get_id_Piece(entier x, entier y) const
+TypePiece Echiquier::getTypePiece(entier x, entier y) const
 {
-    if (presence_piece(x, y))
-        return plateau[x][y]->get_id();
+    if (presencePiece(x, y))
+        return plateau[x][y]->getType();
     return vide;
 }
 
-bool Echiquier::get_couleur_Piece(entier x, entier y) const
+bool Echiquier::getCouleurPiece(entier x, entier y) const
 {
-    return plateau[x][y]->get_couleur();
+    return plateau[x][y]->getCouleur();
 }
 
-bool Echiquier::est_dans_Echiquier(entier x, entier y) const
+bool Echiquier::estDansEchiquier(entier x, entier y) const
 {
     return ((x < 64 && x >= 0) && (y < 64 && y >= 0));
 }
 
-bool Echiquier::presence_piece(entier x, entier y) const
+bool Echiquier::presencePiece(entier x, entier y) const
 {
 
     return (plateau[x][y] != nullptr);
 }
 
-Piece *Echiquier::get_Piece(entier x, entier y) const
+Piece *Echiquier::getPiece(entier x, entier y) const
 {
 
     return plateau[x][y];
 }
 
-bool Echiquier::coup_valide_diagonal(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup) const
+bool Echiquier::coupValideDiagonal(entier xActuel, entier yActuel, entier xCoup, entier yCoup) const
 {
 
-    if (((x_actuel - x_coup) * (x_actuel - x_coup)) != ((y_actuel - y_coup) * (y_actuel - y_coup)))
+    if (((xActuel - xCoup) * (xActuel - xCoup)) != ((yActuel - yCoup) * (yActuel - yCoup)))
         return false;
 
     entier sensx, sensy;
-    if (x_actuel < x_coup)
+    if (xActuel < xCoup)
         sensx = 1;
     else
         sensx = -1;
-    if (y_actuel < y_coup)
+    if (yActuel < yCoup)
         sensy = 1;
     else
         sensy = -1;
-    x_actuel += sensx;
-    y_actuel += sensy;
+    xActuel += sensx;
+    yActuel += sensy;
 
-    while ((x_actuel != x_coup) && (y_actuel != y_coup))
+    while ((xActuel != xCoup) && (yActuel != yCoup))
     {
-        if (presence_piece(x_actuel, y_actuel))
+        if (presencePiece(xActuel, yActuel))
             return false;
 
-        x_actuel += sensx;
-        y_actuel += sensy;
+        xActuel += sensx;
+        yActuel += sensy;
     }
     return true;
 }
 
-bool Echiquier::coup_valide_horizontal(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup) const
+bool Echiquier::coupValideHorizontal(entier xActuel, entier yActuel, entier xCoup, entier yCoup) const
 {
 
-    if (y_actuel != y_coup)
+    if (yActuel != yCoup)
         return false;
 
     int sensx;
-    if (x_actuel < x_coup)
+    if (xActuel < xCoup)
         sensx = 1;
     else
         sensx = -1;
-    x_actuel += sensx;
-    while (x_actuel != x_coup)
+    xActuel += sensx;
+    while (xActuel != xCoup)
     {
-        if (presence_piece(x_actuel, y_actuel))
+        if (presencePiece(xActuel, yActuel))
             return false;
 
-        x_actuel += sensx;
+        xActuel += sensx;
     }
     return true;
 }
 
-bool Echiquier::coup_valide_vertical(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup) const
+bool Echiquier::coupValideVertical(entier xActuel, entier yActuel, entier xCoup, entier yCoup) const
 {
 
-    if (x_actuel != x_coup)
+    if (xActuel != xCoup)
         return false;
 
     int sensy;
-    if (y_actuel < y_coup)
+    if (yActuel < yCoup)
         sensy = 1;
     else
         sensy = -1;
-    y_actuel += sensy;
-    while (y_actuel != y_coup)
+    yActuel += sensy;
+    while (yActuel != yCoup)
     {
-        if (presence_piece(x_actuel, y_actuel))
+        if (presencePiece(xActuel, yActuel))
             return false;
 
-        y_actuel += sensy;
+        yActuel += sensy;
     }
     return true;
 }
 
-bool Echiquier::sont_ennemi(entier x_p1, entier y_p1, entier x_p2, entier y_p2) const
+bool Echiquier::sontEnnemi(entier xP1, entier yP1, entier xP2, entier yP2) const
 {
-    return (plateau[x_p1][y_p1]->get_couleur() != plateau[x_p2][y_p2]->get_couleur());
+    return (plateau[xP1][yP1]->getCouleur() != plateau[xP2][yP2]->getCouleur());
 }
 
-bool Echiquier::coup(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup, bool couleur)
+bool Echiquier::coup(entier xActuel, entier yActuel, entier xCoup, entier yCoup, bool couleur)
 {
-    if (!presence_piece(x_actuel, y_actuel))
+    if (!presencePiece(xActuel, yActuel))
     {
         return false;
     }
-    if (plateau[x_actuel][y_actuel]->get_couleur()!=couleur){
+    if (plateau[xActuel][yActuel]->getCouleur() != couleur){
         return false;
     }
-    if (!plateau[x_actuel][y_actuel]->coup_valide(x_actuel, y_actuel, x_coup, y_coup, *this))
+    if (!plateau[xActuel][yActuel]->coupValide(xActuel, yActuel, xCoup, yCoup, *this))
     {
         cout << "oui" << endl; // TODO c'est quoi ça ??
         return false;
     }
-    if (presence_piece(x_coup, y_coup))
+    if (presencePiece(xCoup, yCoup))
     {
 
-        if (sont_ennemi(x_actuel, y_actuel, x_coup, y_coup))
+        if (sontEnnemi(xActuel, yActuel, xCoup, yCoup))
         {
-            delete plateau[x_coup][y_coup];
-            plateau[x_coup][y_coup] = plateau[x_actuel][y_actuel];
-            plateau[x_actuel][y_actuel] = nullptr;
+            delete plateau[xCoup][yCoup];
+            plateau[xCoup][yCoup] = plateau[xActuel][yActuel];
+            plateau[xActuel][yActuel] = nullptr;
             // information sur la pièce prise revenir plus tard retourner l'ientifiant/type de la piece
             return true;
         }
@@ -217,22 +217,23 @@ bool Echiquier::coup(entier x_actuel, entier y_actuel, entier x_coup, entier y_c
     }
     else
     {
-        plateau[x_coup][y_coup] = plateau[x_actuel][y_actuel];
-        plateau[x_actuel][y_actuel] = nullptr;
+        plateau[xCoup][yCoup] = plateau[xActuel][yActuel];
+        plateau[xActuel][yActuel] = nullptr;
         return true;
     }
 
     return false;
 }
 
-bool Echiquier::Roi_en_echec(entier x_roi, entier y_roi) const
+bool Echiquier::roiEnEchec(entier xRoi, entier yRoi) const
 {
-    bool couleur_Roi = plateau[x_roi][y_roi]->get_couleur();
+    bool couleur_Roi = plateau[xRoi][yRoi]->getCouleur();
     for (entier i = 0; i < 8; i++)
         for (entier j = 0; j < 8; j++)
-            if (presence_piece(i, j))
+            if (presencePiece(i, j))
             {
-                if ((plateau[i][j]->get_couleur() != couleur_Roi) && (plateau[i][j]->coup_valide(i, j, x_roi, y_roi, *this)))
+                if ((plateau[i][j]->getCouleur() != couleur_Roi) && (plateau[i][j]->coupValide(i, j, xRoi, yRoi,
+                                                                                               *this)))
                 {
                     return true;
                 }

@@ -1,36 +1,36 @@
 #include "IHM_console.h"
 
-void IHM_console::afficher_echiquier() const
+void IHM_console::afficherEchiquier() const
 {   
     cout << endl << " ";
     for (entier k = 0; k < 8; k++)
         cout << " " << k << " |";
     cout << "\n";
-    type_piece id;
+    TypePiece id;
     bool couleur;
     for (entier j = 0; j < 8; j++)
     {
         cout << " ";
         for (entier i = 0; i < 8; i++)
         {
-            if (!jeu.presence_piece(i, j))
-                cout << " " << skin[0][vide] << " |";
+            if (!jeu.presencePiece(i, j))
+                cout << " " << symbole[0][vide] << " |";
             else{
-                id = jeu.get_id_Piece(i, j);
-                couleur = jeu.get_couleur_Piece(i, j);
-                cout << " " << skin[couleur][id] << " |";
+                id = jeu.getTypePiece(i, j);
+                couleur = jeu.getCouleurPiece(i, j);
+                cout << " " << symbole[couleur][id] << " |";
                 }
         }
         cout << j << endl;
     }
 }
 
-void IHM_console::boucle_Jeu()
+void IHM_console::boucleJeu()
 {
     bool coup, reste = true;
-    jeu.initialisation_Echiquier();
+    jeu.initialisation();
     int x_actuel, y_actuel, x_coup, y_coup;
-    afficher_echiquier();
+    afficherEchiquier();
     while (reste)
     {
         do
@@ -44,8 +44,8 @@ void IHM_console::boucle_Jeu()
             cout << coup << endl;
         } while (!coup);
 
-        jeu.changer_couleur();
-        afficher_echiquier();
+        jeu.changerCouleur();
+        afficherEchiquier();
         cout << "tapez 1 pour continuer ou 0 pour arreter" << endl;
         cin >> reste;
     }

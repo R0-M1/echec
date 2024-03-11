@@ -8,9 +8,11 @@
 
 class Echiquier
 {
-    
-public:
+private:
     Piece* plateau[8][8];
+
+public:
+
     entier xRoi_blanc, xRoi_noir, yRoi_blanc, yRoi_noir;
     //ptet un tab 2D pour les pieces mangées
 
@@ -18,21 +20,21 @@ public:
     
     Echiquier();
     ~Echiquier();
-    void initialisation_Echiquier();
-    bool est_dans_Echiquier(entier x, entier y)const;
-    bool presence_piece(entier x, entier y)const;
-    Piece* get_Piece(entier x, entier y)const;
-    bool coup_valide_diagonal(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup)const;
-    bool coup_valide_horizontal(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup)const;
-    bool coup_valide_vertical(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup)const;
-    bool sont_ennemi(entier x_p1, entier y_p1, entier x_p2, entier y_p2)const;
+    void initialisation();
+    bool estDansEchiquier(entier x, entier y)const;
+    bool presencePiece(entier x, entier y)const;
+    Piece* getPiece(entier x, entier y)const;
+    bool coupValideDiagonal(entier xActuel, entier yActuel, entier xCoup, entier yCoup)const;
+    bool coupValideHorizontal(entier xActuel, entier yActuel, entier xCoup, entier yCoup)const;
+    bool coupValideVertical(entier xActuel, entier yActuel, entier xCoup, entier yCoup)const;
+    bool sontEnnemi(entier xP1, entier yP1, entier xP2, entier yP2)const;
         //changer peut etre le type pour indiquer quelle piece a été "mangée"
-    bool coup(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup, bool couleur);
-    bool Roi_en_echec(entier x_roi, entier y_roi) const;
-    entier get_xRoi(bool co)const;
-    entier get_yRoi(bool co)const;
-    bool get_couleur_Piece(entier x, entier y)const;
-    type_piece get_id_Piece(entier x, entier y)const;
+    bool coup(entier xActuel, entier yActuel, entier xCoup, entier yCoup, bool couleur);
+    bool roiEnEchec(entier xRoi, entier yRoi) const;
+    entier getXRoi(bool co)const;
+    entier getYRoi(bool co)const;
+    bool getCouleurPiece(entier x, entier y)const;
+    TypePiece getTypePiece(entier x, entier y)const;
     
 
 

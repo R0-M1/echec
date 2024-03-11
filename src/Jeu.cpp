@@ -5,36 +5,36 @@ Jeu::Jeu(){
     couleur = false;
 }
 
-void Jeu::initialisation_Echiquier(){
-    echiquier.initialisation_Echiquier();
+void Jeu::initialisation(){
+    echiquier.initialisation();
 }
 
-void Jeu::changer_couleur(){
+void Jeu::changerCouleur(){
     couleur = !couleur;
 }
 
-bool Jeu::EchecEtMat()const{
+bool Jeu::echecEtMat()const{
     return 1;
 }
 
 entier Jeu::get_xRoi(bool co)const{
-    return echiquier.get_xRoi(co);
+    return echiquier.getXRoi(co);
 }
 entier Jeu::get_yRoi(bool co)const{
-    return echiquier.get_yRoi(co);
+    return echiquier.getYRoi(co);
 }
-bool Jeu::get_couleur_Piece(entier x, entier y)const{
+bool Jeu::getCouleurPiece(entier x, entier y)const{
 
-    return echiquier.get_couleur_Piece(x, y);
+    return echiquier.getCouleurPiece(x, y);
 }
-type_piece Jeu::get_id_Piece(entier x, entier y)const{
-    return echiquier.get_id_Piece(x, y);
+TypePiece Jeu::getTypePiece(entier x, entier y)const{
+    return echiquier.getTypePiece(x, y);
 }
 
-bool Jeu::presence_piece(entier x, entier y) const
+bool Jeu::presencePiece(entier x, entier y) const
 {
 
-    return  echiquier.presence_piece(x, y);
+    return echiquier.presencePiece(x, y);
 }
 
 bool Jeu::coup(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup){

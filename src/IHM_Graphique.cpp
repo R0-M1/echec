@@ -23,7 +23,7 @@ void IHM_Graphique::boucleJeu() {
     chargerEchiquier();
     chargerPieces();
     chargerMusique();
-    jeu.initialisation_Echiquier();
+    jeu.initialisation();
 
 
     baseEchiquier = echiquier.getPosition() - sf::Vector2f(tailleEchiquier/2,tailleEchiquier/2);
@@ -42,7 +42,6 @@ void IHM_Graphique::boucleJeu() {
                 if(event.mouseButton.button == sf::Mouse::Left) {
                     for (int i = 0; i < 32; i++) {
                         if (sprite[i].getGlobalBounds().contains(window->mapPixelToCoords(souris))) {
-                            bouge = true;
                             n=i;
                             oldIntPos = sf::Vector2i(int((sprite[n].getPosition().x - baseEchiquier.x) * 8 / tailleEchiquier),
                                                      int((sprite[n].getPosition().y - baseEchiquier.y) * 8 / tailleEchiquier));
@@ -55,23 +54,23 @@ void IHM_Graphique::boucleJeu() {
             if(event.type==sf::Event::MouseButtonReleased) {
                 if(event.mouseButton.button == sf::Mouse::Left) {
                     if(n!=-1) {
-                        bouge = false;
                         newIntPos = sf::Vector2i(int((sprite[n].getPosition().x - baseEchiquier.x) * 8 / tailleEchiquier),
                                                  int((sprite[n].getPosition().y - baseEchiquier.y) * 8 / tailleEchiquier));
+                        newPos = sf::Vector2f(newIntPos.x * tailleCase + tailleCase / 2,
+                                              newIntPos.y * tailleCase + tailleCase / 2) + baseEchiquier;
 
                         std::cout<<oldIntPos.x<<" "<< 7-oldIntPos.y<<" -> "<< newIntPos.x<<" "<< 7-newIntPos.y<<std::endl;
                         if(jeu.coup(oldIntPos.x,7-oldIntPos.y, newIntPos.x, 7-newIntPos.y)) {
-                            newPos = sf::Vector2f(newIntPos.x * tailleCase + tailleCase / 2,
-                                                  newIntPos.y * tailleCase + tailleCase / 2) + baseEchiquier;
                             sprite[n].setPosition(newPos);
-                            jeu.changer_couleur();
+                            jeu.changerCouleur();
+                            oldPos = newPos;
 
                             move.play();
                         } else {
                             sprite[n].setPosition(oldPos);
-
-                            illegal.play();
+                            if(newPos!=oldPos) illegal.play();
                         }
+                        n = -1;
                     }
                 }
             }
@@ -83,7 +82,7 @@ void IHM_Graphique::boucleJeu() {
                 window->setView(sf::View(view));
             }
         }
-        if (bouge) {
+        if (n!=1) {
             sprite[n].setPosition(souris.x, souris.y);
         }
 

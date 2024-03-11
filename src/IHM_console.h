@@ -13,11 +13,11 @@ class IHM_console
 {
 
 public:
-    string skin[2][7] = { {"♙", "♗", "♘", "♖", "♕", "♔", " "}, {"♟", "♝", "♞", "♜", "♛", "♚", " "}};
+    string symbole[2][7] = {{"♙", "♗", "♘", "♖", "♕", "♔", " "}, {"♟", "♝", "♞", "♜", "♛", "♚", " "}};
     Jeu jeu;
 
-    void afficher_echiquier() const;
-    void boucle_Jeu();
+    void afficherEchiquier() const;
+    void boucleJeu();
 };
 
 #endif

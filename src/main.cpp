@@ -18,7 +18,7 @@ int main() {
     cin>>MODE_GRAPHIQUE;
     if (!MODE_GRAPHIQUE) {
         IHM_console ihm;
-        ihm.boucle_Jeu();
+        ihm.boucleJeu();
     } else {
         string titre = "Jeu d'echec";
 
