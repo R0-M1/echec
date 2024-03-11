@@ -15,7 +15,7 @@ bool Pion::coup_valide(entier x_actuel, entier y_actuel, entier x_coup, entier y
     else
         sens = -1;
     
-    if (y_actuel == 1 + ((int)couleur) * 5 && x_coup == x_actuel && (y_coup == 3 + (int)couleur) && !(echiquier.presence_piece(x_coup, y_coup - 1)))
+    if (y_actuel == 1 + ((int)couleur) * 5 && x_coup == x_actuel && (y_coup == 3 + (int)couleur) && !(echiquier.presence_piece(x_coup, y_coup +1+(int)!couleur*(-2))))
         return true;
     if (echiquier.coup_valide_diagonal(x_actuel, y_actuel, x_coup, y_coup) && (y_coup == y_actuel + sens) && echiquier.presence_piece(x_coup, y_coup))
         return true;
