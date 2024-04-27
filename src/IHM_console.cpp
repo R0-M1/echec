@@ -44,6 +44,17 @@ void IHM_console::boucleJeu()
             cout << coup << endl;
         } while (!coup);
 
+        do
+        {
+            
+            cout << "entrez les coordonnées du mur: " << endl;
+            cin >> x_actuel >> y_actuel;
+            cout << "entrez les coordonnées du coup: " << endl;
+            cin >> x_coup >> y_coup;
+            coup = jeu.coupMur(x_actuel, y_actuel, x_coup, y_coup);
+            cout << coup << endl;
+        } while (!coup);
+
         jeu.changerCouleur();
         afficherEchiquier();
         cout << "tapez 1 pour continuer ou 0 pour arreter" << endl;

@@ -2,45 +2,39 @@
 #ifndef _ECHIQUIER_
 #define _ECHIQUIER_
 
-#include  "Piece.h"
-
-
+#include "Piece.h"
 
 class Echiquier
 {
 private:
-    Piece* plateau[8][8];
+    Piece *plateau[8][8], *murEchiquier;
+    int Prise[2][6];
 
 public:
-
     entier xRoi_blanc, xRoi_noir, yRoi_blanc, yRoi_noir;
-    //ptet un tab 2D pour les pieces mangées
+    // ptet un tab 2D pour les pieces mangées
 
-
-    
     Echiquier();
     ~Echiquier();
     void initialisation();
-    bool estDansEchiquier(entier x, entier y)const;
-    bool presencePiece(entier x, entier y)const;
-    Piece* getPiece(entier x, entier y)const;
-    bool coupValideDiagonal(entier xActuel, entier yActuel, entier xCoup, entier yCoup)const;
-    bool coupValideHorizontal(entier xActuel, entier yActuel, entier xCoup, entier yCoup)const;
-    bool coupValideVertical(entier xActuel, entier yActuel, entier xCoup, entier yCoup)const;
-    bool sontEnnemi(entier xP1, entier yP1, entier xP2, entier yP2)const;
-        //changer peut etre le type pour indiquer quelle piece a été "mangée"
+    bool estDansEchiquier(entier x, entier y) const;
+    bool presencePiece(entier x, entier y) const;
+    Piece *getPiece(entier x, entier y) const;
+    bool coupValideDiagonal(entier xActuel, entier yActuel, entier xCoup, entier yCoup) const;
+    bool coupValideHorizontal(entier xActuel, entier yActuel, entier xCoup, entier yCoup) const;
+    bool coupValideVertical(entier xActuel, entier yActuel, entier xCoup, entier yCoup) const;
+    bool sontEnnemi(entier xP1, entier yP1, entier xP2, entier yP2) const;
+    // changer peut etre le type pour indiquer quelle piece a été "mangée"
     bool coup(entier xActuel, entier yActuel, entier xCoup, entier yCoup, bool couleur);
     bool roiEnEchec(entier xRoi, entier yRoi) const;
-    entier getXRoi(bool co)const;
-    entier getYRoi(bool co)const;
-    bool getCouleurPiece(entier x, entier y)const;
-    TypePiece getTypePiece(entier x, entier y)const;
-    
+    entier getXRoi(bool co) const;
+    entier getYRoi(bool co) const;
+    bool getCouleurPiece(entier x, entier y) const;
+    TypePiece getTypePiece(entier x, entier y) const;
 
-
-    
-
+    bool estMur(entier x, entier y) const;
+    bool coupMur(entier xActuel, entier yActuel, entier xCoup, entier yCoup, bool co);
+    void changercouleurMur();
 };
-
 
 #endif

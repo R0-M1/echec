@@ -13,7 +13,7 @@ class IHM_console
 {
 
 public:
-    string symbole[2][7] = {{"♙", "♗", "♘", "♖", "♕", "♔", " "}, {"♟", "♝", "♞", "♜", "♛", "♚", " "}};
+    string symbole[2][8] = {{"♙", "♗", "♘", "♖", "♕", "♔", "□", " "}, {"♟", "♝", "♞", "♜", "♛", "♚", "■", " "}};
     Jeu jeu;
 
     void afficherEchiquier() const;

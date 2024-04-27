@@ -6,7 +6,10 @@
 #include "Cavalier.h"
 #include "Dame.h"
 #include "Roi.h"
+#include "Mur.h"
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 
 Echiquier::Echiquier()
@@ -26,8 +29,9 @@ Echiquier::~Echiquier()
                 delete plateau[i][j];
 }
 
-void Echiquier::initialisation() //a corriger (new utilisé plusieurs fois sur la meme piece)
+void Echiquier::initialisation() // a corriger (new utilisé plusieurs fois sur la meme piece)
 {
+    srand((unsigned int)(time(nullptr)));
     entier i, j;
     for (i = 0; i < 8; i++)
     {
@@ -52,6 +56,9 @@ void Echiquier::initialisation() //a corriger (new utilisé plusieurs fois sur l
         plateau[3][j] = new Dame(j);
         plateau[4][j] = new Roi(j);
     }
+
+    murEchiquier = new Mur(0);
+    plateau[rand() % 9][rand() % 2 + 2] = murEchiquier; // probzlemnt faux
 
     xRoi_noir = 4;
     xRoi_blanc = 4;
@@ -182,18 +189,29 @@ bool Echiquier::sontEnnemi(entier xP1, entier yP1, entier xP2, entier yP2) const
     return (plateau[xP1][yP1]->getCouleur() != plateau[xP2][yP2]->getCouleur());
 }
 
+bool Echiquier::estMur(entier x, entier y) const
+{
+    return (plateau[x][y]->getType() == mur);
+}
+
 bool Echiquier::coup(entier xActuel, entier yActuel, entier xCoup, entier yCoup, bool couleur)
 {
     if (!presencePiece(xActuel, yActuel))
     {
         return false;
     }
-    if (plateau[xActuel][yActuel]->getCouleur() != couleur){
+    if (plateau[xActuel][yActuel]->getCouleur() != couleur)
+    {
         return false;
     }
+    if (estMur(xActuel, yActuel) || estMur(xCoup, yCoup))
+    {
+
+        return false;
+    }
+
     if (!plateau[xActuel][yActuel]->coupValide(xActuel, yActuel, xCoup, yCoup, *this))
     {
-        cout << "oui" << endl; // TODO c'est quoi ça ??
         return false;
     }
     if (presencePiece(xCoup, yCoup))
@@ -211,7 +229,7 @@ bool Echiquier::coup(entier xActuel, entier yActuel, entier xCoup, entier yCoup,
         // condition du else ils st pas ennemi ptet faut renvoyer un msg
         else
         {
-            
+
             return false;
         }
     }
@@ -225,6 +243,24 @@ bool Echiquier::coup(entier xActuel, entier yActuel, entier xCoup, entier yCoup,
     return false;
 }
 
+void Echiquier::changercouleurMur()
+{
+    murEchiquier->changercouleur();
+}
+
+bool Echiquier::coupMur(entier xActuel, entier yActuel, entier xCoup, entier yCoup, bool co)
+{
+
+  
+    if (presencePiece(xCoup, yCoup) || !estMur(xActuel, yActuel) || plateau[xCoup][yCoup]->getCouleur() != co)
+        return false;
+
+    plateau[xCoup][yCoup] = plateau[xActuel][yActuel];
+    plateau[xActuel][yActuel] = nullptr;
+    return true;
+}
+
+// y'a plus de roi en échec
 bool Echiquier::roiEnEchec(entier xRoi, entier yRoi) const
 {
     bool couleur_Roi = plateau[xRoi][yRoi]->getCouleur();
