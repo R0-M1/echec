@@ -3,6 +3,9 @@
 Jeu::Jeu()
 {
     couleur = false;
+    nbtour = 0;
+    joker[0] = 3;
+    joker[1] = 3;
 }
 
 void Jeu::initialisation()
@@ -54,4 +57,18 @@ bool Jeu::coupMur(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup
 {
 
     return echiquier.coupMur(x_actuel, y_actuel, x_coup, y_coup, couleur);
+}
+
+
+
+bool Jeu::mortRoi()const{
+    return echiquier.mortRoi(couleur);
+}
+
+void Jeu::retour(){
+    
+    if (joker[couleur] > 0)
+
+        echiquier.retour();
+        joker[couleur] --;
 }

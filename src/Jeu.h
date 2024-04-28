@@ -9,6 +9,8 @@ public:
     // verifie apres chaque tour si il y a un echec et mat
     Echiquier echiquier;
     bool couleur;
+    int nbtour, joker[2];
+
 
     Jeu();
     void initialisation();
@@ -22,6 +24,9 @@ public:
     bool presencePiece(entier x, entier y) const;
     bool coup(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup);
     bool coupMur(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup);
+
+    bool mortRoi()const;
+    void retour();
 };
 
 #endif

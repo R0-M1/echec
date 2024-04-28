@@ -33,6 +33,9 @@ void IHM_console::boucleJeu()
     afficherEchiquier();
     while (reste)
     {
+        cout << "revenir ? " << endl;
+        cin >> reste;
+        if (reste) jeu.echiquier.retour();
         do
         {
             
@@ -44,6 +47,7 @@ void IHM_console::boucleJeu()
             cout << coup << endl;
         } while (!coup);
 
+        afficherEchiquier();
         do
         {
             
@@ -55,9 +59,21 @@ void IHM_console::boucleJeu()
             cout << coup << endl;
         } while (!coup);
 
+
+
+        
+
+
+        jeu.echiquier.sauver(0);
+
         jeu.changerCouleur();
         afficherEchiquier();
         cout << "tapez 1 pour continuer ou 0 pour arreter" << endl;
         cin >> reste;
+
+        
+        reste = reste * !jeu.mortRoi();
     }
 }
+
+

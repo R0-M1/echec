@@ -3,12 +3,18 @@
 #define _ECHIQUIER_
 
 #include "Piece.h"
+#include <fstream>
+#include <string>
+#include <cstdio> 
+using namespace std;
+
 
 class Echiquier
 {
 private:
     Piece *plateau[8][8], *murEchiquier;
-    int Prise[2][6];
+    int prise[2][6];
+    
 
 public:
     entier xRoi_blanc, xRoi_noir, yRoi_blanc, yRoi_noir;
@@ -17,6 +23,7 @@ public:
     Echiquier();
     ~Echiquier();
     void initialisation();
+    void init();
     bool estDansEchiquier(entier x, entier y) const;
     bool presencePiece(entier x, entier y) const;
     Piece *getPiece(entier x, entier y) const;
@@ -35,6 +42,15 @@ public:
     bool estMur(entier x, entier y) const;
     bool coupMur(entier xActuel, entier yActuel, entier xCoup, entier yCoup, bool co);
     void changercouleurMur();
+
+    bool mortRoi(bool co)const;
+
+
+    Piece* creerPiece(TypePiece type, bool co);
+    void sauver(int k);
+    void charger(int k);
+    void retour();
+    void detruire();
 };
 
 #endif

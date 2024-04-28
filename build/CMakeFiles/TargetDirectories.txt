@@ -1,0 +1,3 @@
+/home/ray/Projet_echec/echec/build/CMakeFiles/Echec.dir
+/home/ray/Projet_echec/echec/build/CMakeFiles/edit_cache.dir
+/home/ray/Projet_echec/echec/build/CMakeFiles/rebuild_cache.dir
