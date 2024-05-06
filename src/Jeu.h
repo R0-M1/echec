@@ -13,9 +13,10 @@ public:
 
 
     Jeu();
-    void initialisation();
+    void initialisation(bool nouvelle_partie);
     bool echecEtMat() const;
     void changerCouleur();
+    bool getCouleur();
     void jouer_coup();
     entier get_xRoi(bool co) const;
     entier get_yRoi(bool co) const;
@@ -27,6 +28,9 @@ public:
 
     bool mortRoi()const;
     void retour();
+    void sauver();
+
+    void coupAI();
 };
 
 #endif

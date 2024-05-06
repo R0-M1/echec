@@ -8,9 +8,10 @@ Jeu::Jeu()
     joker[1] = 3;
 }
 
-void Jeu::initialisation()
+void Jeu::initialisation(bool nouvelle_partie)
 {
-    echiquier.initialisation();
+    couleur = echiquier.initialisation(nouvelle_partie);
+
 }
 
 void Jeu::changerCouleur()
@@ -72,3 +73,18 @@ void Jeu::retour(){
         echiquier.retour();
         joker[couleur] --;
 }
+
+void Jeu::coupAI(){ 
+    if (couleur)
+        echiquier.coupAI(couleur);
+}
+
+bool Jeu::getCouleur(){
+
+    return couleur;
+}
+
+void Jeu::sauver(){
+    echiquier.sauver();
+}
+

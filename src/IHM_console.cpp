@@ -28,45 +28,52 @@ void IHM_console::afficherEchiquier() const
 void IHM_console::boucleJeu()
 {
     bool coup, reste = true;
-    jeu.initialisation();
+    cout << "voulez vous ecraser l'ancienne partie tapez 1" << endl;
+    cin >> coup;
+    jeu.initialisation(coup);
     int x_actuel, y_actuel, x_coup, y_coup;
     afficherEchiquier();
     while (reste)
     {
-        cout << "revenir ? " << endl;
-        cin >> reste;
-        if (reste) jeu.echiquier.retour();
-        do
-        {
-            
-            cout << "entrez les coordonnées de la piece: " << endl;
-            cin >> x_actuel >> y_actuel;
-            cout << "entrez les coordonnées du coup: " << endl;
-            cin >> x_coup >> y_coup;
-            coup = jeu.coup(x_actuel, y_actuel, x_coup, y_coup);
-            cout << coup << endl;
-        } while (!coup);
+        if (!jeu.getCouleur()){
+            cout << "revenir ? " << endl;
+            cin >> reste;
+            if (reste) jeu.echiquier.retour();
+            do
+            {
+                
+                cout << "entrez les coordonnées de la piece: " << endl;
+                cin >> x_actuel >> y_actuel;
+                cout << "entrez les coordonnées du coup: " << endl;
+                cin >> x_coup >> y_coup;
+                coup = jeu.coup(x_actuel, y_actuel, x_coup, y_coup);
+                cout << coup << endl;
+            } while (!coup);
 
-        afficherEchiquier();
-        do
-        {
-            
-            cout << "entrez les coordonnées du mur: " << endl;
-            cin >> x_actuel >> y_actuel;
-            cout << "entrez les coordonnées du coup: " << endl;
-            cin >> x_coup >> y_coup;
-            coup = jeu.coupMur(x_actuel, y_actuel, x_coup, y_coup);
-            cout << coup << endl;
-        } while (!coup);
+            afficherEchiquier();
+            do
+            {
+                
+                cout << "entrez les coordonnées du mur: " << endl;
+                cin >> x_actuel >> y_actuel;
+                cout << "entrez les coordonnées du coup: " << endl;
+                cin >> x_coup >> y_coup;
+                coup = jeu.coupMur(x_actuel, y_actuel, x_coup, y_coup);
+                cout << coup << endl;
+            } while (!coup);
 
 
-
+        }
         
+        else{
+            jeu.coupAI();
+            }
 
-
-        jeu.echiquier.sauver(0);
 
         jeu.changerCouleur();
+        jeu.sauver();
+        
+        
         afficherEchiquier();
         cout << "tapez 1 pour continuer ou 0 pour arreter" << endl;
         cin >> reste;
@@ -74,6 +81,9 @@ void IHM_console::boucleJeu()
         
         reste = reste * !jeu.mortRoi();
     }
+
+    if (jeu.mortRoi())
+        cout << "Le Roi " << symbole[!jeu.getCouleur()][(int)roi] << "est mort !" << endl;
 }
 
 

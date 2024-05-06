@@ -22,8 +22,8 @@ public:
 
     Echiquier();
     ~Echiquier();
-    void initialisation();
-    void init();
+    bool initialisation(bool nouvelle_partie);
+    void init(bool nouvelle_partie);
     bool estDansEchiquier(entier x, entier y) const;
     bool presencePiece(entier x, entier y) const;
     Piece *getPiece(entier x, entier y) const;
@@ -47,10 +47,13 @@ public:
 
 
     Piece* creerPiece(TypePiece type, bool co);
-    void sauver(int k);
-    void charger(int k);
+    void sauver();
+    void charger();
     void retour();
     void detruire();
+
+
+    bool coupAI(bool co);
 };
 
 #endif

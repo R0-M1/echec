@@ -23,7 +23,7 @@ void IHM_Graphique::boucleJeu() {
     chargerEchiquier();
     chargerPieces();
     chargerMusique();
-    jeu.initialisation();
+    jeu.initialisation(0);
 
 
     baseEchiquier = echiquier.getPosition() - sf::Vector2f(tailleEchiquier/2,tailleEchiquier/2);

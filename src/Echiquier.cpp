@@ -14,7 +14,7 @@ using namespace std;
 
 Echiquier::Echiquier()
 {
-   
+
     for (entier i = 0; i < 8; i++)
         for (entier j = 0; j < 8; j++)
             plateau[i][j] = nullptr;
@@ -27,19 +27,19 @@ Echiquier::Echiquier()
 Echiquier::~Echiquier()
 {
     detruire();
-    
 }
 
-void Echiquier::detruire(){
+void Echiquier::detruire()
+{
     for (entier i = 0; i < 8; i++)
         for (entier j = 0; j < 8; j++)
             if (presencePiece(i, j))
                 delete plateau[i][j];
 }
 
-void Echiquier::initialisation() // a corriger (new utilisé plusieurs fois sur la meme piece)
-{   
-   
+bool Echiquier::initialisation(bool nouvelle_partie) // a corriger (new utilisé plusieurs fois sur la meme piece)
+{
+
     srand((unsigned int)(time(nullptr)));
     entier i, j;
     for (i = 0; i < 8; i++)
@@ -67,16 +67,12 @@ void Echiquier::initialisation() // a corriger (new utilisé plusieurs fois sur 
     }
 
     murEchiquier = new Mur(0);
-    //plateau[rand() % 9][rand() % 2 + 2] = murEchiquier; // probzlemnt faux
-    plateau[0][3] = murEchiquier;  
-    
+    // plateau[rand() % 9][rand() % 2 + 2] = murEchiquier; // probzlemnt faux
+    plateau[0][3] = murEchiquier;
 
-    
-    init();
-    xRoi_noir = 4;
-    xRoi_blanc = 4;
-    yRoi_noir = 7;
-    yRoi_blanc = 0;
+    init(nouvelle_partie);
+
+    return murEchiquier->getCouleur();
 }
 
 entier Echiquier::getXRoi(bool co) const
@@ -204,13 +200,14 @@ bool Echiquier::sontEnnemi(entier xP1, entier yP1, entier xP2, entier yP2) const
 
 bool Echiquier::estMur(entier x, entier y) const
 {
-    if (!presencePiece(x, y)) return false;
+    if (!presencePiece(x, y))
+        return false;
     return (plateau[x][y]->getType() == mur);
 }
 
 bool Echiquier::coup(entier xActuel, entier yActuel, entier xCoup, entier yCoup, bool couleur)
-{   
-    
+{
+
     if (!presencePiece(xActuel, yActuel))
     {
         return false;
@@ -219,27 +216,24 @@ bool Echiquier::coup(entier xActuel, entier yActuel, entier xCoup, entier yCoup,
     {
         return false;
     }
-    
-    
+
     if (estMur(xActuel, yActuel) || estMur(xCoup, yCoup))
     {
 
         return false;
     }
 
-    
     if (!plateau[xActuel][yActuel]->coupValide(xActuel, yActuel, xCoup, yCoup, *this))
     {
         return false;
     }
 
-    
     if (presencePiece(xCoup, yCoup))
     {
 
         if (sontEnnemi(xActuel, yActuel, xCoup, yCoup))
-        {   
-            prise[plateau[xCoup][yCoup]->getCouleur()][plateau[xCoup][yCoup]->getType()] ++;
+        {
+            prise[plateau[xCoup][yCoup]->getCouleur()][plateau[xCoup][yCoup]->getType()]++;
             delete plateau[xCoup][yCoup];
             plateau[xCoup][yCoup] = plateau[xActuel][yActuel];
             plateau[xActuel][yActuel] = nullptr;
@@ -272,7 +266,6 @@ void Echiquier::changercouleurMur()
 bool Echiquier::coupMur(entier xActuel, entier yActuel, entier xCoup, entier yCoup, bool co)
 {
 
-    
     if (presencePiece(xCoup, yCoup) || !estMur(xActuel, yActuel) || plateau[xActuel][yActuel]->getCouleur() != co)
         return false;
 
@@ -298,50 +291,46 @@ bool Echiquier::roiEnEchec(entier xRoi, entier yRoi) const
     return false;
 }
 
-
-bool Echiquier::mortRoi(bool co)const{
+bool Echiquier::mortRoi(bool co) const
+{
 
     return (prise[co][roi] > 0);
 }
 
+void Echiquier::sauver()
+{
 
-
-void Echiquier::sauver(int k){
-
-    //sauvegarde de l'echiquier
+    // sauvegarde de l'echiquier
     ofstream save("../sauvegarde/save1.txt", ios::app);
-    if(!save.is_open())
+    if (!save.is_open())
         cout << "echec" << endl;
 
-    
-
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++){
-                if (plateau[i][j] != nullptr)
-                    save << plateau[i][j]->getType() << " " << plateau[i][j]->getCouleur() << " ";
-                else 
-                    save << vide << " " << vide << " ";
-            }
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
+            if (plateau[i][j] != nullptr)
+                save << plateau[i][j]->getType() << " " << plateau[i][j]->getCouleur() << " ";
+            else
+                save << vide << " " << vide << " ";
         }
+    }
 
-    //sauvegarde de prise
-    for (int j = 0; j < 6; j++){
+    // sauvegarde de prise
+    for (int j = 0; j < 6; j++)
+    {
 
         save << prise[0][j] << " " << prise[1][j] << " ";
     }
-    
 
     save << "\n";
 
     save.seekp(0, ios::end);
     save.close();
-
-    
-
 }
-    
-Piece* Echiquier::creerPiece(TypePiece type, bool co){
 
+Piece *Echiquier::creerPiece(TypePiece type, bool co)
+{
 
     switch (type)
     {
@@ -370,134 +359,165 @@ Piece* Echiquier::creerPiece(TypePiece type, bool co){
         break;
 
     case mur:
-        return murEchiquier;
+        return new Mur(co);
         break;
-    
+
     default:
-    return nullptr;
+        return nullptr;
         break;
     }
 }
-    
-void Echiquier::charger(int k){
-    
+
+void Echiquier::charger()
+{
 
     detruire();
 
     int type;
     int co;
-    
-    ifstream save("../sauvegarde/save1.txt");
-    
-    if(!save.is_open())
-        cout << "nononon" << endl;
 
+    ifstream save("../sauvegarde/save1.txt");
+
+    if (!save.is_open())
+        cout << "fichier pas ouvert" << endl;
 
     save.seekg(0, ios::end);
     streampos fileSize = save.tellg();
-    streampos position = fileSize - (streampos) 281;
+    streampos position = fileSize - (streampos)281;
     save.seekg(position);
 
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++){
-            
-            
-            
-            save >> type >> co;
-            //cout <<  "les trucs: " << type << " " << co << endl;
-            plateau[i][j] = creerPiece((TypePiece)type, (bool)co);
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
 
+            save >> type >> co;
+            // cout <<  "les trucs: " << type << " " << co << endl;
+            plateau[i][j] = creerPiece((TypePiece)type, (bool)co);
+            if (type == mur)
+            {
+                cout << co << endl;
+                murEchiquier = plateau[i][j];
+            }
         }
     }
 
-    
-    for (int j = 0; j < 6; j++){
+    for (int j = 0; j < 6; j++)
+    {
 
         save >> prise[0][j] >> prise[1][j];
     }
-    
-    
-    save.close();
 
+    save.close();
 }
 
-void Echiquier::init(){
+void Echiquier::init(bool nouvelle_partie)
+{
     ofstream save("../sauvegarde/save1.txt", ios::app);
-    
-    if(!save.is_open())
-        cout << "nononon" << endl;
 
+    if (!save.is_open())
+        cout << "nononon" << endl;
 
     save.seekp(0, ios::end);
     streampos longueur = save.tellp();
-    
-    if (longueur == 0)
-        sauver(0);
-    else   
-        charger(0);
-    
 
+    if (longueur == 0 || nouvelle_partie)
+    {
+
+        ofstream file("../sauvegarde/save1.txt", std::ofstream::out | std::ofstream::trunc); // effacer le contenu
+        sauver();
+    }
+    else
+        charger();
 }
 
-
-
-
-
-void Echiquier::retour() {
+void Echiquier::retour()
+{
     int nb = 0;
     string lastLine, secondLastLine, line;
 
     ifstream save1("../sauvegarde/save1.txt");
-    if (!save1.is_open()) {
+    if (!save1.is_open())
+    {
         cerr << "erreur dans le fichier de sauvegarde" << endl;
         return;
     }
 
-    
-    while (getline(save1, line)) {
+    while (getline(save1, line))
+    {
         secondLastLine = lastLine;
         lastLine = line;
         nb++;
     }
 
- 
     save1.close();
     save1.open("../sauvegarde/save1.txt");
 
-
-    if (nb <= 2) {
+    if (nb <= 2)
+    {
         cout << "il faut plus que deux partie pour utiliser le joker" << endl;
         return;
     }
 
-
     ofstream tempFile("../sauvegarde/temp.txt");
-    if (!tempFile.is_open()) {
+    if (!tempFile.is_open())
+    {
         cout << "erreur dans le fichier temporaire " << endl;
         return;
     }
 
-    while (getline(save1, line)) {
-        if (line != secondLastLine && line != lastLine) {
+    while (getline(save1, line))
+    {
+        if (line != secondLastLine && line != lastLine)
+        {
             tempFile << line << endl;
         }
     }
 
-   
     save1.close();
     tempFile.close();
 
-   
-    if (remove("../sauvegarde/save1.txt") != 0) {
-        cerr << "erreur1" << endl;
+    if (remove("../sauvegarde/save1.txt") != 0)
+    {
+        cout << "erreur1" << endl;
         return;
     }
 
+    if (rename("../sauvegarde/temp.txt", "../sauvegarde/save1.txt") != 0)
+    {
+        cout << "erreur2" << endl;
+        return;
+    }
+
+    charger();
+}
+
+/**/
+bool Echiquier::coupAI(bool co)
+{
+    int xA, yA, xC, yC, t;
     
-    if (rename("../sauvegarde/temp.txt", "../sauvegarde/save1.txt") != 0) {
-        cerr << "erreur2" << endl;
-        return;
-    }
+    do
+    {
+        xA = rand() % 8;
+        yA = rand() % 8;
+        
 
-    charger(0);
+        xC = rand() % 8;
+        yC = rand() % 8;
+    } while (!coup(xA, yA, xC, yC, co));
+
+
+    do
+    {
+        xA = rand() % 8;
+        yA = rand() % 8;
+
+
+        xC = rand() % 8;
+        yC = rand() % 8;
+
+    } while (!coupMur(xA, yA, xC, yC, co));
+
+    return true;
 }
