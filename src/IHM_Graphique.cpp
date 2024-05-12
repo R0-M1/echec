@@ -3,14 +3,15 @@
 
 std::string relativePath = "../assets/"; //chemin du dossier images contenant toutes les images
 
-IHM_Graphique::IHM_Graphique(sf::RenderWindow& window) {
+IHM_Graphique::IHM_Graphique(sf::RenderWindow& window, bool IA) {
     this->window = &window;
+    this->IA = IA;
     widthWindow = window.getSize().x;
     heightWindow = window.getSize().y;
     tailleEchiquier = std::min(widthWindow, heightWindow);
     tailleCase = tailleEchiquier / 8;
-    sprite = new sf::Sprite[32];
-    statique = new bool[32];
+    sprite = new sf::Sprite[33];
+    statique = new bool[33];
 }
 
 
@@ -23,7 +24,7 @@ void IHM_Graphique::boucleJeu() {
     chargerEchiquier();
     chargerPieces();
     chargerMusique();
-    jeu.initialisation(0);
+    jeu.initialisation(false);
 
 
     baseEchiquier = echiquier.getPosition() - sf::Vector2f(tailleEchiquier/2,tailleEchiquier/2);
@@ -40,7 +41,7 @@ void IHM_Graphique::boucleJeu() {
             if(event.type == sf::Event::Closed) window->close();
             if(event.type==sf::Event::MouseButtonPressed) {
                 if(event.mouseButton.button == sf::Mouse::Left) {
-                    for (int i = 0; i < 32; i++) {
+                    for (int i = 0; i < 33; i++) {
                         if (sprite[i].getGlobalBounds().contains(window->mapPixelToCoords(souris))) {
                             n=i;
                             oldIntPos = sf::Vector2i(int((sprite[n].getPosition().x - baseEchiquier.x) * 8 / tailleEchiquier),
@@ -60,15 +61,25 @@ void IHM_Graphique::boucleJeu() {
                                               newIntPos.y * tailleCase + tailleCase / 2) + baseEchiquier;
 
                         std::cout<<oldIntPos.x<<" "<< 7-oldIntPos.y<<" -> "<< newIntPos.x<<" "<< 7-newIntPos.y<<std::endl;
-                        if(jeu.coup(oldIntPos.x,7-oldIntPos.y, newIntPos.x, 7-newIntPos.y)) {
-                            sprite[n].setPosition(newPos);
-                            jeu.changerCouleur();
-                            oldPos = newPos;
-
-                            move.play();
+                        if(jeu.estMur(oldIntPos.x,7-oldIntPos.y)) {
+                            if(jeu.coupMur(oldIntPos.x,7-oldIntPos.y, newIntPos.x, 7 - newIntPos.y)) {
+                                jeu.changerCouleur();
+                                oldPos = newPos;
+                                move.play();
+                            } else {
+                                sprite[n].setPosition(oldPos);
+                                if (newPos != oldPos) illegal.play();
+                            }
                         } else {
-                            sprite[n].setPosition(oldPos);
-                            if(newPos!=oldPos) illegal.play();
+                            if (jeu.coup(oldIntPos.x, 7 - oldIntPos.y, newIntPos.x, 7 - newIntPos.y)) {
+                                sprite[n].setPosition(newPos);
+                                jeu.changerCouleur();
+                                oldPos = newPos;
+                                move.play();
+                            } else {
+                                sprite[n].setPosition(oldPos);
+                                if (newPos != oldPos) illegal.play();
+                            }
                         }
                         n = -1;
                     }
@@ -89,8 +100,10 @@ void IHM_Graphique::boucleJeu() {
         window->clear(sf::Color::Cyan);
         window->draw(echiquier);
 
-        for(int i=0; i<32; i++) {
-            if(i!=n) window->draw(sprite[i]);
+        for(int i=0; i<33; i++) {
+            if(i!=n) {
+                window->draw(sprite[i]);
+            }
         }
         if(n!=-1) window->draw(sprite[n]);
 
@@ -134,6 +147,8 @@ void IHM_Graphique::chargerPieces() {
         std::cout << "failed to load roiBlanc" << std::endl;
     if (!roiNoirTexture.loadFromFile(relativePath + "images/roiNoir.png"))
         std::cout << "failed to load roiNoir" << std::endl;
+    if (!murTexture.loadFromFile(relativePath + "images/mur.png"))
+        std::cout << "failed to load mur" << std::endl;
 
 
 
@@ -154,6 +169,7 @@ void IHM_Graphique::chargerPieces() {
     configPiece(sprite[30], chevalierNoirTexture, tailleCase/2+tailleCase*6, tailleCase/2);
     configPiece(sprite[7], tourBlancTexture, tailleCase/2+tailleCase*7, tailleCase/2+tailleCase*7);
     configPiece(sprite[31], tourNoirTexture, tailleCase/2+tailleCase*7, tailleCase/2);
+    configPiece(sprite[32], murTexture, tailleCase/2+tailleCase*0, tailleCase/2+tailleCase*2);
 
     for(int i=0; i<8; i++) {
         configPiece(sprite[i+8], pionBlancTexture, tailleCase/2+tailleCase*i, tailleCase/2+tailleCase*6);
@@ -183,7 +199,7 @@ void IHM_Graphique::refreshSprite() {
 
     tailleEchiquier = newSize;
 
-    for(int i=0; i<32; i++) {
+    for(int i=0; i<33; i++) {
         sprite[i].setPosition((newWindowSize.x/2)-scale*(oldEchiquierPos.x-sprite[i].getPosition().x),(newWindowSize.y/2)-scale*(oldEchiquierPos.y-sprite[i].getPosition().y));
 
         sprite[i].scale(scale, scale);

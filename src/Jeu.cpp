@@ -88,3 +88,7 @@ void Jeu::sauver(){
     echiquier.sauver();
 }
 
+bool Jeu::estMur(entier x, entier y) const {
+    return echiquier.estMur(x,y);
+}
+

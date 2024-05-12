@@ -8,40 +8,98 @@
 
 using namespace std;
 
-// pour changer entre un mode console et un mode graphique
-//#define MODE_GRAPHIQUE true
 
 
 int main() {
-    bool MODE_GRAPHIQUE = true;
-    cout<<"mode graphique ? (1)oui (0)non"<<endl;
-    cin>>MODE_GRAPHIQUE;
-    if (!MODE_GRAPHIQUE) {
-        IHM_console ihm;
-        ihm.boucleJeu();
-    } else {
         string titre = "Jeu d'echec";
 
         sf::RenderWindow window(sf::VideoMode(800, 800), titre, sf::Style::Default);
         window.setVerticalSyncEnabled(true);
 
-        IHM_Graphique ihm(window);
-        ihm.boucleJeu();
+        sf::Font police;
+        police.loadFromFile("../assets/font.ttf");
 
-        while (window.isOpen()) {
+        sf::Text text0;
+        text0.setFont(police);
+        text0.setCharacterSize(60);
+        text0.setFillColor(sf::Color::White);
+        text0.setString("Wall Chess | Jeu d'echec");
+        text0.setOrigin(text0.getGlobalBounds().getSize() / 2.f + text0.getLocalBounds().getPosition());
+        text0.setPosition(window.getSize().y/2,100);
+
+        sf::RectangleShape bouton1(sf::Vector2f(350,100));
+        bouton1.setPosition((window.getSize().y-bouton1.getSize().x)/2,200);
+        bouton1.setFillColor(sf::Color(0x81b64cFF));
+        bouton1.setOutlineThickness(1);
+        bouton1.setOutlineColor(sf::Color(0x50633eFF));
+        sf::Text text1;
+        text1.setFont(police);
+        text1.setCharacterSize(30);
+        text1.setFillColor(sf::Color::White);
+        text1.setString("Joueur contre Joueur");
+        text1.setOrigin(text1.getGlobalBounds().getSize() / 2.f + text1.getLocalBounds().getPosition());
+        text1.setPosition(bouton1.getPosition() + (bouton1.getSize() / 2.f));
+
+        sf::RectangleShape bouton2(sf::Vector2f(350,100));
+        bouton2.setPosition((window.getSize().y-bouton2.getSize().x)/2,400);
+        bouton2.setFillColor(sf::Color(0x403e3cFF));
+        bouton2.setOutlineThickness(1);
+        bouton2.setOutlineColor(sf::Color(0x292926FF));
+        sf::Text text2;
+        text2.setFont(police);
+        text2.setCharacterSize(30);
+        text2.setFillColor(sf::Color::White);
+        text2.setString("Joueur contre Ordinateur");
+        text2.setOrigin(text2.getGlobalBounds().getSize() / 2.f + text2.getLocalBounds().getPosition());
+        text2.setPosition(bouton2.getPosition() + (bouton2.getSize() / 2.f));
+
+        sf::RectangleShape bouton3(sf::Vector2f(200,100));
+        bouton3.setPosition((window.getSize().y-bouton3.getSize().x)/2,600);
+        bouton3.setFillColor(sf::Color(0x262522FF));
+        bouton3.setOutlineThickness(1);
+        bouton3.setOutlineColor(sf::Color(0x1f1e1cFF));
+        sf::Text text3;
+        text3.setFont(police);
+        text3.setCharacterSize(55);
+        text3.setFillColor(sf::Color(0x302e2bFF));
+        text3.setString("Quitter");
+        text3.setOutlineThickness(0);
+        text3.setOutlineColor(sf::Color(0x1f1e1cFF));
+        text3.setOrigin(text3.getGlobalBounds().getSize() / 2.f + text3.getLocalBounds().getPosition());
+        text3.setPosition(text2.getPosition().x,text2.getPosition().y+200);
+
+
+
+    while (window.isOpen()) {
             sf::Event event;
             while (window.pollEvent(event)) {
                 if (event.type == sf::Event::Closed) {
                     window.close();
                 }
                 if (event.type == sf::Event::MouseButtonPressed) {
-
+                    if(event.mouseButton.button == sf::Mouse::Left) {
+                        if(bouton1.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
+                            IHM_Graphique ihm(window, false);
+                            ihm.boucleJeu();
+                        } else if(bouton2.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
+                            IHM_Graphique ihm(window, true);
+                            ihm.boucleJeu();
+                        } else if(bouton3.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
+                            window.close();
+                        }
+                    }
                 }
             }
-            window.clear(sf::Color::Blue);
+            window.clear(sf::Color(0x302e2bFF));
 
+            window.draw(bouton1);
+            window.draw(bouton2);
+            window.draw(bouton3);
+            window.draw(text0);
+            window.draw(text1);
+            window.draw(text2);
+            window.draw(text3);
             window.display();
         }
         return 0;
-    }
 }

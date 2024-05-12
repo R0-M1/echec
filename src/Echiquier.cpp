@@ -214,6 +214,7 @@ bool Echiquier::coup(entier xActuel, entier yActuel, entier xCoup, entier yCoup,
     }
     if (plateau[xActuel][yActuel]->getCouleur() != couleur)
     {
+        std::cout<<"test";
         return false;
     }
 

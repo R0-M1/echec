@@ -12,6 +12,7 @@
 class IHM_Graphique {
 private:
     Jeu jeu;
+    bool IA;
 
     float widthWindow;
     float heightWindow;
@@ -22,6 +23,7 @@ private:
 
     sf::Sprite echiquier;
     sf::Sprite* sprite;
+    sf::Sprite mur;
     bool* statique;
 
     sf::Texture damier;
@@ -37,6 +39,7 @@ private:
     sf::Texture roiNoirTexture;
     sf::Texture dameNoirTexture;
     sf::Texture pionNoirTexture;
+    sf::Texture murTexture;
 
     sf::Music move;
     sf::Music illegal;
@@ -55,7 +58,7 @@ private:
     void refreshSprite();
     void chargerMusique();
 public:
-    IHM_Graphique(sf::RenderWindow& window);
+    IHM_Graphique(sf::RenderWindow& window, bool IA);
     ~IHM_Graphique();
     void boucleJeu();
 
