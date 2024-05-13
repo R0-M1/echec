@@ -13,6 +13,7 @@ class IHM_Graphique {
 private:
     Jeu jeu;
     bool IA;
+    bool sauvegarde;
 
     float widthWindow;
     float heightWindow;
@@ -25,6 +26,7 @@ private:
     sf::Sprite* sprite;
     sf::Sprite mur;
     bool* statique;
+    int n=-1;
 
     sf::Texture damier;
     sf::Texture tourBlancTexture;
