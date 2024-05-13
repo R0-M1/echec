@@ -58,7 +58,7 @@ private:
     void refreshSprite();
     void chargerMusique();
 public:
-    IHM_Graphique(sf::RenderWindow& window, bool IA);
+    IHM_Graphique(sf::RenderWindow& window, bool IA, bool sauvegarde);
     ~IHM_Graphique();
     void boucleJeu();
 

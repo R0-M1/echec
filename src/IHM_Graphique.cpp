@@ -3,7 +3,7 @@
 
 std::string relativePath = "../assets/"; //chemin du dossier images contenant toutes les images
 
-IHM_Graphique::IHM_Graphique(sf::RenderWindow& window, bool IA) {
+IHM_Graphique::IHM_Graphique(sf::RenderWindow& window, bool IA, bool sauvegarde) {
     this->window = &window;
     this->IA = IA;
     widthWindow = window.getSize().x;
@@ -12,6 +12,7 @@ IHM_Graphique::IHM_Graphique(sf::RenderWindow& window, bool IA) {
     tailleCase = tailleEchiquier / 8;
     sprite = new sf::Sprite[33];
     statique = new bool[33];
+    if(!sauvegarde) jeu.sauver();
 }
 
 

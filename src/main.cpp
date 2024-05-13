@@ -28,7 +28,7 @@ int main() {
         text0.setPosition(window.getSize().y/2,100);
 
         sf::RectangleShape bouton1(sf::Vector2f(350,100));
-        bouton1.setPosition((window.getSize().y-bouton1.getSize().x)/2,200);
+        bouton1.setPosition((window.getSize().y-bouton1.getSize().x)/2-75,200);
         bouton1.setFillColor(sf::Color(0x81b64cFF));
         bouton1.setOutlineThickness(1);
         bouton1.setOutlineColor(sf::Color(0x50633eFF));
@@ -41,7 +41,7 @@ int main() {
         text1.setPosition(bouton1.getPosition() + (bouton1.getSize() / 2.f));
 
         sf::RectangleShape bouton2(sf::Vector2f(350,100));
-        bouton2.setPosition((window.getSize().y-bouton2.getSize().x)/2,400);
+        bouton2.setPosition((window.getSize().y-bouton2.getSize().x)/2-75,400);
         bouton2.setFillColor(sf::Color(0x403e3cFF));
         bouton2.setOutlineThickness(1);
         bouton2.setOutlineColor(sf::Color(0x292926FF));
@@ -66,7 +66,33 @@ int main() {
         text3.setOutlineThickness(0);
         text3.setOutlineColor(sf::Color(0x1f1e1cFF));
         text3.setOrigin(text3.getGlobalBounds().getSize() / 2.f + text3.getLocalBounds().getPosition());
-        text3.setPosition(text2.getPosition().x,text2.getPosition().y+200);
+        text3.setPosition(bouton3.getPosition() + (bouton3.getSize() / 2.f));
+
+        sf::RectangleShape bouton4(sf::Vector2f(100,100));
+        bouton4.setPosition(bouton1.getPosition().x+400,bouton1.getPosition().y);
+        bouton4.setFillColor(sf::Color(0x81b64cFF));
+        bouton4.setOutlineThickness(1);
+        bouton4.setOutlineColor(sf::Color(0x50633eFF));
+        sf::Text text4;
+        text4.setFont(police);
+        text4.setCharacterSize(24);
+        text4.setFillColor(sf::Color::White);
+        text4.setString("Continuer");
+        text4.setOrigin(text4.getGlobalBounds().getSize() / 2.f + text4.getLocalBounds().getPosition());
+        text4.setPosition(bouton4.getPosition() + (bouton4.getSize() / 2.f));
+
+        sf::RectangleShape bouton5(sf::Vector2f(100,100));
+        bouton5.setPosition(bouton2.getPosition().x+400,bouton2.getPosition().y);
+        bouton5.setFillColor(sf::Color(0x403e3cFF));
+        bouton5.setOutlineThickness(1);
+        bouton5.setOutlineColor(sf::Color(0x292926FF));
+        sf::Text text5;
+        text5.setFont(police);
+        text5.setCharacterSize(24);
+        text5.setFillColor(sf::Color::White);
+        text5.setString("Continuer");
+        text5.setOrigin(text5.getGlobalBounds().getSize() / 2.f + text5.getLocalBounds().getPosition());
+        text5.setPosition(bouton5.getPosition() + (bouton5.getSize() / 2.f));
 
 
 
@@ -79,13 +105,19 @@ int main() {
                 if (event.type == sf::Event::MouseButtonPressed) {
                     if(event.mouseButton.button == sf::Mouse::Left) {
                         if(bouton1.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
-                            IHM_Graphique ihm(window, false);
+                            IHM_Graphique ihm(window, false, false);
                             ihm.boucleJeu();
                         } else if(bouton2.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
-                            IHM_Graphique ihm(window, true);
+                            IHM_Graphique ihm(window, true, false);
                             ihm.boucleJeu();
                         } else if(bouton3.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
                             window.close();
+                        } else if(bouton4.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
+                            IHM_Graphique ihm(window, true, true);
+                            ihm.boucleJeu();
+                        } else if(bouton5.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
+                            IHM_Graphique ihm(window, true, true);
+                            ihm.boucleJeu();
                         }
                     }
                 }
@@ -95,10 +127,14 @@ int main() {
             window.draw(bouton1);
             window.draw(bouton2);
             window.draw(bouton3);
+            window.draw(bouton4);
+            window.draw(bouton5);
             window.draw(text0);
             window.draw(text1);
             window.draw(text2);
             window.draw(text3);
+            window.draw(text4);
+            window.draw(text5);
             window.display();
         }
         return 0;
