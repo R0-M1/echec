@@ -63,7 +63,7 @@ bool Jeu::coupMur(entier x_actuel, entier y_actuel, entier x_coup, entier y_coup
 
 
 bool Jeu::mortRoi()const{
-    return echiquier.mortRoi(couleur);
+    return echiquier.mortRoi(!couleur);
 }
 
 void Jeu::retour(){

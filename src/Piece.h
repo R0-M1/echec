@@ -14,7 +14,7 @@ enum TypePiece
     mur,
     vide
 };
-typedef unsigned short int entier;
+typedef short int entier;
 
 class Piece
 {

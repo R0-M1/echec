@@ -27,21 +27,39 @@ void IHM_Graphique::boucleJeu() {
     chargerMusique();
     jeu.initialisation(!sauvegarde);
 
+    sf::RectangleShape bouton1(sf::Vector2f(window->getSize().x,100));
+    bouton1.setPosition((window->getSize().x-bouton1.getSize().x)/2,(window->getSize().y-bouton1.getSize().y)/2);
+    bouton1.setFillColor(sf::Color(0x81b64cFF));
+    bouton1.setOutlineThickness(1);
+    bouton1.setOutlineColor(sf::Color(0x50633eFF));
+    sf::Text text1;
+    sf::Font police;
+    police.loadFromFile("../assets/font.ttf");
+    text1.setFont(police);
+    text1.setCharacterSize(70);
+    text1.setFillColor(sf::Color::White);
+    text1.setString("PARTIE FINIE");
+    text1.setOrigin(text1.getGlobalBounds().getSize() / 2.f + text1.getLocalBounds().getPosition());
+    text1.setPosition(bouton1.getPosition() + (bouton1.getSize() / 2.f));
 
     baseEchiquier = echiquier.getPosition() - sf::Vector2f(tailleEchiquier/2,tailleEchiquier/2);
     sf::Vector2i oldIntPos, newIntPos;
     sf::Vector2f oldPos, newPos;
-    //int n = -1;
-    bool bouge = false;
+
     sf::Vector2i souris;
     while(window->isOpen()) {
         souris = sf::Mouse::getPosition(*window);
         sf::Event event;
         while (window->pollEvent(event)) {
             if(event.type == sf::Event::Closed) window->close();
+            if(event.type == sf::Event::KeyPressed) {
+                if(event.key.scancode==sf::Keyboard::Scan::R) {
+                    jeu.retour();
+                }
+            }
             if(event.type==sf::Event::MouseButtonPressed) {
                 if(event.mouseButton.button == sf::Mouse::Left) {
-                    for (int i = 0; i < 33; i++) {
+                    for (int i = 0+jeu.getCouleur()*16; i < jeu.getCouleur()*16+16; i++) {
                         if (sprite[i].getGlobalBounds().contains(window->mapPixelToCoords(souris))) {
                             n=i;
                             oldIntPos = sf::Vector2i(int((sprite[n].getPosition().x - baseEchiquier.x) * 8 / tailleEchiquier),
@@ -49,6 +67,13 @@ void IHM_Graphique::boucleJeu() {
                             oldPos = sf::Vector2f(oldIntPos.x * tailleCase + tailleCase / 2,
                                                   oldIntPos.y * tailleCase + tailleCase / 2) + baseEchiquier;
                         }
+                    }
+                    if(sprite[32].getGlobalBounds().contains(window->mapPixelToCoords(souris))) {
+                        n=32;
+                        oldIntPos = sf::Vector2i(int((sprite[n].getPosition().x - baseEchiquier.x) * 8 / tailleEchiquier),
+                                                 int((sprite[n].getPosition().y - baseEchiquier.y) * 8 / tailleEchiquier));
+                        oldPos = sf::Vector2f(oldIntPos.x * tailleCase + tailleCase / 2,
+                                              oldIntPos.y * tailleCase + tailleCase / 2) + baseEchiquier;
                     }
                 }
             }
@@ -61,27 +86,22 @@ void IHM_Graphique::boucleJeu() {
                                               newIntPos.y * tailleCase + tailleCase / 2) + baseEchiquier;
 
                         std::cout<<oldIntPos.x<<" "<< 7-oldIntPos.y<<" -> "<< newIntPos.x<<" "<< 7-newIntPos.y<<std::endl;
-                        if(jeu.estMur(oldIntPos.x,7-oldIntPos.y)) {
-                            if(jeu.coupMur(oldIntPos.x,7-oldIntPos.y, newIntPos.x, 7 - newIntPos.y)) {
-                                jeu.changerCouleur();
-                                oldPos = newPos;
-                                move.play();
-                            } else {
-                                sprite[n].setPosition(oldPos);
-                                if (newPos != oldPos) illegal.play();
-                            }
+                        if (!coupJoue&&jeu.coup(oldIntPos.x, 7 - oldIntPos.y, newIntPos.x, 7 - newIntPos.y)) {
+                            oldPos = newPos;
+                            move.play();
+                            coupJoue=true;
+                            murJoue=false;
+                        } else if (!murJoue&&jeu.coupMur(oldIntPos.x, 7 - oldIntPos.y, newIntPos.x, 7 - newIntPos.y)) {
+                            murJoue=true;
+                            coupJoue=false;
+                            jeu.changerCouleur();
+                            oldPos = newPos;
+                            move.play();
                         } else {
-                            if (jeu.coup(oldIntPos.x, 7 - oldIntPos.y, newIntPos.x, 7 - newIntPos.y)) {
-                                //sprite[n].setPosition(newPos);
-                                jeu.changerCouleur();
-                                oldPos = newPos;
-                                move.play();
-                            } else {
-                                //sprite[n].setPosition(oldPos);
-                                if (newPos != oldPos) illegal.play();
-                            }
+                            if (newPos != oldPos) illegal.play();
                         }
                         n = -1;
+                        jeu.sauver();
                     }
                 }
             }
@@ -93,6 +113,12 @@ void IHM_Graphique::boucleJeu() {
                 window->setView(sf::View(view));
             }
         }
+
+        if(IA&&jeu.getCouleur()) {
+            jeu.coupAI();
+            jeu.changerCouleur();
+        }
+
         window->clear(sf::Color::Cyan);
         window->draw(echiquier);
 
@@ -103,10 +129,24 @@ void IHM_Graphique::boucleJeu() {
         }
 
 
-
+        for(int i =0;i<8;i++){
+            for(int j=0;j<8;j++) {
+                if(jeu.presencePiece(j,i)) {
+                    std::cout << jeu.getTypePiece(j, i) << jeu.getCouleurPiece(j, i) << " ";
+                } else {
+                    std::cout<<" ";
+                }
+            }
+            std::cout<<std::endl;
+        }
 
 
         if(n!=-1) window->draw(sprite[n]);
+
+        if (jeu.mortRoi()) {
+            window->draw(bouton1);
+            window->draw(text1);
+        }
 
         window->display();
     }
@@ -116,11 +156,10 @@ void IHM_Graphique::affichage() {
     int tourB=0, tourN=0, cavalierB=0, cavalierN=0, fouB=0, fouN=0, pionB=0, pionN=0;
 
 
-
     for(int i=0;i<8;i++) {
         for(int j=0;j<8;j++) {
             if(jeu.presencePiece(i,j)) {
-                //std::cout<<i<<" "<<j<<std::endl;
+                //std::cout<<jeu.getTypePiece(i,j);
                 if (!jeu.getCouleurPiece(i, j)) {
                     switch (jeu.getTypePiece(i, j)) {
                         case roi:
@@ -187,6 +226,10 @@ void IHM_Graphique::affichage() {
                         default:
                             break;
                     }
+                }
+                if(jeu.getTypePiece(i, j) == mur) {
+                    sprite[32].setPosition(tailleCase/2+i * tailleCase, tailleCase/2+(7-j) * tailleCase);
+                    window->draw(sprite[32]);
                 }
             }
         }

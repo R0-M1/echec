@@ -24,9 +24,10 @@ private:
 
     sf::Sprite echiquier;
     sf::Sprite* sprite;
-    sf::Sprite mur;
     bool* statique;
     int n=-1;
+    bool murJoue=true;
+    bool coupJoue=false;
 
     sf::Texture damier;
     sf::Texture tourBlancTexture;
