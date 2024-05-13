@@ -57,6 +57,7 @@ private:
     void configPiece(sf::Sprite &spr, sf::Texture& texture, float x, float y) const;
     void refreshSprite();
     void chargerMusique();
+    void affichage();
 public:
     IHM_Graphique(sf::RenderWindow& window, bool IA, bool sauvegarde);
     ~IHM_Graphique();
@@ -65,6 +66,7 @@ public:
 
     //afficheEchiquier : setEchiquierVisible
     //initialisePieces : setPieceVisible
+
 
 
 };

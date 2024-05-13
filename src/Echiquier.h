@@ -11,15 +11,12 @@ using namespace std;
 
 class Echiquier
 {
-private:
-    Piece *plateau[8][8], *murEchiquier;
-    int prise[2][6];
-    
-
 public:
     entier xRoi_blanc, xRoi_noir, yRoi_blanc, yRoi_noir;
     // ptet un tab 2D pour les pieces mangées
 
+    Piece *plateau[8][8], *murEchiquier;
+    int prise[2][6];
     Echiquier();
     ~Echiquier();
     bool initialisation(bool nouvelle_partie);

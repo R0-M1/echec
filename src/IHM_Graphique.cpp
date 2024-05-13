@@ -25,14 +25,13 @@ void IHM_Graphique::boucleJeu() {
     chargerEchiquier();
     chargerPieces();
     chargerMusique();
-    jeu.initialisation(false);
+    jeu.initialisation(true);
 
 
     baseEchiquier = echiquier.getPosition() - sf::Vector2f(tailleEchiquier/2,tailleEchiquier/2);
     sf::Vector2i oldIntPos, newIntPos;
     sf::Vector2f oldPos, newPos;
     int n = -1;
-    bool premierClic=false;
     bool bouge = false;
     sf::Vector2i souris;
     while(window->isOpen()) {
@@ -73,12 +72,12 @@ void IHM_Graphique::boucleJeu() {
                             }
                         } else {
                             if (jeu.coup(oldIntPos.x, 7 - oldIntPos.y, newIntPos.x, 7 - newIntPos.y)) {
-                                sprite[n].setPosition(newPos);
+                                //sprite[n].setPosition(newPos);
                                 jeu.changerCouleur();
                                 oldPos = newPos;
                                 move.play();
                             } else {
-                                sprite[n].setPosition(oldPos);
+                                //sprite[n].setPosition(oldPos);
                                 if (newPos != oldPos) illegal.play();
                             }
                         }
@@ -94,21 +93,62 @@ void IHM_Graphique::boucleJeu() {
                 window->setView(sf::View(view));
             }
         }
+        window->clear(sf::Color::Cyan);
+        window->draw(echiquier);
+
+        affichage();
+
         if (n!=1) {
             sprite[n].setPosition(souris.x, souris.y);
         }
 
-        window->clear(sf::Color::Cyan);
-        window->draw(echiquier);
 
+/*
         for(int i=0; i<33; i++) {
             if(i!=n) {
                 window->draw(sprite[i]);
             }
         }
+        */
         if(n!=-1) window->draw(sprite[n]);
-
         window->display();
+    }
+}
+
+void IHM_Graphique::affichage() {
+    for(int i=0;i<8;i++) {
+        for(int j=0;j<8;j++) {
+            if(jeu.presencePiece(i,j)) {
+                std::cout<<i<<" "<<j<<std::endl;
+                if (jeu.getCouleurPiece(i, j)) {
+                    switch (jeu.getTypePiece(i, j)) {
+                        case roi:
+                            sprite[4].setPosition(tailleCase/2+i * tailleCase, tailleCase/2+j * tailleCase);
+                            window->draw(sprite[4]);
+                            break;
+                        case pion:
+                            sprite[9].setPosition(tailleCase/2+i * tailleCase, tailleCase/2+j * tailleCase);
+                            window->draw(sprite[9]);
+                            break;
+                        default:
+                            break;
+                    }
+                } else {
+                    switch (jeu.getTypePiece(i, j)) {
+                        case roi:
+                            sprite[28].setPosition(tailleCase/2+i * tailleCase, tailleCase/2+j * tailleCase);
+                            window->draw(sprite[28]);
+                            break;
+                        case pion:
+                            sprite[19].setPosition(tailleCase/2+i * tailleCase, tailleCase/2+j * tailleCase);
+                            window->draw(sprite[19]);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -182,9 +222,9 @@ void IHM_Graphique::configPiece(sf::Sprite &spr, sf::Texture& texture, float x, 
     texture.setSmooth(true);
     spr.setTexture(texture);
     spr.setOrigin(spr.getGlobalBounds().width/2,spr.getGlobalBounds().height/2);
-    spr.setPosition(x, y);
+    //spr.setPosition(x, y);
     spr.setScale(sf::Vector2f(tailleEchiquier / (8 * texture.getSize().x),
-                                     tailleEchiquier / (8 * texture.getSize().x)));
+                              tailleEchiquier / (8 * texture.getSize().x)));
 }
 
 // fonction permettant de repositionner & redimensionner les sprites apres un resize de la fenetre.
