@@ -28,6 +28,7 @@ private:
     int n=-1;
     bool murJoue=true;
     bool coupJoue=false;
+    bool sauver=false;
 
     sf::Texture damier;
     sf::Texture tourBlancTexture;

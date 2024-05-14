@@ -39,7 +39,7 @@ void IHM_Graphique::boucleJeu() {
     text1.setCharacterSize(70);
     text1.setFillColor(sf::Color::White);
     text1.setString("PARTIE FINIE");
-    text1.setOrigin(text1.getGlobalBounds().getSize() / 2.f + text1.getLocalBounds().getPosition());
+    text1.setOrigin(text1.getGlobalBounds().width / 2.f , text1.getLocalBounds().height);
     text1.setPosition(bouton1.getPosition() + (bouton1.getSize() / 2.f));
 
     baseEchiquier = echiquier.getPosition() - sf::Vector2f(tailleEchiquier/2,tailleEchiquier/2);
@@ -53,7 +53,7 @@ void IHM_Graphique::boucleJeu() {
         while (window->pollEvent(event)) {
             if(event.type == sf::Event::Closed) window->close();
             if(event.type == sf::Event::KeyPressed) {
-                if(event.key.scancode==sf::Keyboard::Scan::R) {
+                if(event.key.code==sf::Keyboard::R) {
                     jeu.retour();
                 }
             }
@@ -97,11 +97,19 @@ void IHM_Graphique::boucleJeu() {
                             jeu.changerCouleur();
                             oldPos = newPos;
                             move.play();
+                            sauver = true;
+                           
+                            
                         } else {
                             if (newPos != oldPos) illegal.play();
                         }
+
+                        if(sauver){
+                            jeu.sauver();
+                            sauver = false;
+}
                         n = -1;
-                        jeu.sauver();
+                        
                     }
                 }
             }

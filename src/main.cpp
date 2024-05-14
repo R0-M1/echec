@@ -24,7 +24,7 @@ int main() {
         text0.setCharacterSize(60);
         text0.setFillColor(sf::Color::White);
         text0.setString("Wall Chess | Jeu d'echec");
-        text0.setOrigin(text0.getGlobalBounds().getSize() / 2.f + text0.getLocalBounds().getPosition());
+        text0.setOrigin(text0.getGlobalBounds().width / 2.f , text0.getLocalBounds().height);
         text0.setPosition(window.getSize().y/2,100);
 
         sf::RectangleShape bouton1(sf::Vector2f(350,100));
@@ -37,7 +37,7 @@ int main() {
         text1.setCharacterSize(30);
         text1.setFillColor(sf::Color::White);
         text1.setString("Joueur contre Joueur");
-        text1.setOrigin(text1.getGlobalBounds().getSize() / 2.f + text1.getLocalBounds().getPosition());
+        text1.setOrigin(text1.getGlobalBounds().width / 2.f , text1.getLocalBounds().height);
         text1.setPosition(bouton1.getPosition() + (bouton1.getSize() / 2.f));
 
         sf::RectangleShape bouton2(sf::Vector2f(350,100));
@@ -50,7 +50,7 @@ int main() {
         text2.setCharacterSize(30);
         text2.setFillColor(sf::Color::White);
         text2.setString("Joueur contre Ordinateur");
-        text2.setOrigin(text2.getGlobalBounds().getSize() / 2.f + text2.getLocalBounds().getPosition());
+        text2.setOrigin(text2.getGlobalBounds().width / 2.f , text2.getLocalBounds().height);
         text2.setPosition(bouton2.getPosition() + (bouton2.getSize() / 2.f));
 
         sf::RectangleShape bouton3(sf::Vector2f(200,100));
@@ -65,7 +65,7 @@ int main() {
         text3.setString("Quitter");
         text3.setOutlineThickness(0);
         text3.setOutlineColor(sf::Color(0x1f1e1cFF));
-        text3.setOrigin(text3.getGlobalBounds().getSize() / 2.f + text3.getLocalBounds().getPosition());
+        text3.setOrigin(text3.getGlobalBounds().width / 2.f , text3.getLocalBounds().height);
         text3.setPosition(bouton3.getPosition() + (bouton3.getSize() / 2.f));
 
         sf::RectangleShape bouton4(sf::Vector2f(100,100));
@@ -78,7 +78,7 @@ int main() {
         text4.setCharacterSize(24);
         text4.setFillColor(sf::Color::White);
         text4.setString("Continuer");
-        text4.setOrigin(text4.getGlobalBounds().getSize() / 2.f + text4.getLocalBounds().getPosition());
+        text4.setOrigin(text4.getGlobalBounds().width / 2.f , text4.getLocalBounds().height);
         text4.setPosition(bouton4.getPosition() + (bouton4.getSize() / 2.f));
 
         sf::RectangleShape bouton5(sf::Vector2f(100,100));
@@ -91,7 +91,7 @@ int main() {
         text5.setCharacterSize(24);
         text5.setFillColor(sf::Color::White);
         text5.setString("Continuer");
-        text5.setOrigin(text5.getGlobalBounds().getSize() / 2.f + text5.getLocalBounds().getPosition());
+        text5.setOrigin(text5.getGlobalBounds().width / 2.f , text5.getLocalBounds().height);
         text5.setPosition(bouton5.getPosition() + (bouton5.getSize() / 2.f));
 
 
