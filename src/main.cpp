@@ -113,7 +113,7 @@ int main() {
                         } else if(bouton3.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
                             window.close();
                         } else if(bouton4.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
-                            IHM_Graphique ihm(window, true, true);
+                            IHM_Graphique ihm(window, false, true);
                             ihm.boucleJeu();
                         } else if(bouton5.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
                             IHM_Graphique ihm(window, true, true);
