@@ -39,12 +39,14 @@ void IHM_Graphique::boucleJeu() {
     text1.setCharacterSize(70);
     text1.setFillColor(sf::Color::White);
     text1.setString("PARTIE FINIE");
-    text1.setOrigin(text1.getGlobalBounds().width / 2.f , text1.getLocalBounds().height);
+    text1.setOrigin(text1.getGlobalBounds().width / 2.f , text1.getLocalBounds().height-10);
     text1.setPosition(bouton1.getPosition() + (bouton1.getSize() / 2.f));
 
     baseEchiquier = echiquier.getPosition() - sf::Vector2f(tailleEchiquier/2,tailleEchiquier/2);
     sf::Vector2i oldIntPos, newIntPos;
     sf::Vector2f oldPos, newPos;
+    gameStart.play();
+    bool endSong = false;
 
     sf::Vector2i souris;
     while(window->isOpen()) {
@@ -132,21 +134,11 @@ void IHM_Graphique::boucleJeu() {
 
         affichage();
 
-        if (n!=1) {
+        if (n!=-1) {
             sprite[n].setPosition(souris.x, souris.y);
         }
 
 
-        for(int i =0;i<8;i++){
-            for(int j=0;j<8;j++) {
-                if(jeu.presencePiece(j,i)) {
-                    std::cout << jeu.getTypePiece(j, i) << jeu.getCouleurPiece(j, i) << " ";
-                } else {
-                    std::cout<<" ";
-                }
-            }
-            std::cout<<std::endl;
-        }
 
 
         if(n!=-1) window->draw(sprite[n]);
@@ -154,8 +146,12 @@ void IHM_Graphique::boucleJeu() {
         if (jeu.mortRoi()) {
             window->draw(bouton1);
             window->draw(text1);
+            if(!endSong) {
+                gameEnd.play();
+                endSong=true;
+            }
         }
-
+        
         window->display();
     }
 }
@@ -171,31 +167,49 @@ void IHM_Graphique::affichage() {
                 if (!jeu.getCouleurPiece(i, j)) {
                     switch (jeu.getTypePiece(i, j)) {
                         case roi:
-                            sprite[4].setPosition(tailleCase/2+i * tailleCase, tailleCase/2+(7-j) * tailleCase);
-                            window->draw(sprite[4]);
+                            if(n!=4) {
+                                sprite[4].setPosition(tailleCase / 2 + i * tailleCase,
+                                                      tailleCase / 2 + (7 - j) * tailleCase);
+                                window->draw(sprite[4]);
+                            }
                             break;
                         case dame:
-                            sprite[3].setPosition(tailleCase/2+i * tailleCase, tailleCase/2+(7-j) * tailleCase);
-                            window->draw(sprite[3]);
+                            if(n!=3) {
+                                sprite[3].setPosition(tailleCase / 2 + i * tailleCase,
+                                                      tailleCase / 2 + (7 - j) * tailleCase);
+                                window->draw(sprite[3]);
+                            }
                             break;
                         case pion:
-                            sprite[8+pionB].setPosition(tailleCase/2+i * tailleCase, tailleCase/2+(7-j) * tailleCase);
-                            window->draw(sprite[8+pionB]);
+                                if (n != 8 + pionB) {
+                                    sprite[8 + pionB].setPosition(tailleCase / 2 + i * tailleCase,
+                                                                  tailleCase / 2 + (7 - j) * tailleCase);
+                                    window->draw(sprite[8 + pionB]);
+                                }
                             pionB++;
                             break;
                         case cavalier:
-                            sprite[1+cavalierB*5].setPosition(tailleCase/2+i * tailleCase, tailleCase/2+(7-j) * tailleCase);
-                            window->draw(sprite[1+cavalierB*5]);
+                            if(n!=1+cavalierB*5) {
+                                sprite[1 + cavalierB * 5].setPosition(tailleCase / 2 + i * tailleCase,
+                                                                       tailleCase / 2 + (7 - j) * tailleCase);
+                                window->draw(sprite[1 + cavalierB * 5]);
+                            }
                             cavalierB++;
                             break;
                         case fou:
-                            sprite[2+fouB*3].setPosition(tailleCase/2+i * tailleCase, tailleCase/2+(7-j) * tailleCase);
-                            window->draw(sprite[2+fouB*3]);
+                            if(n!=2+fouB*3) {
+                                sprite[2 + fouB * 3].setPosition(tailleCase / 2 + i * tailleCase,
+                                                                 tailleCase / 2 + (7 - j) * tailleCase);
+                                window->draw(sprite[2 + fouB * 3]);
+                            }
                             fouB++;
                             break;
                         case tour:
-                            sprite[0+tourB*7].setPosition(tailleCase/2+i * tailleCase, tailleCase/2+(7-j) * tailleCase);
-                            window->draw(sprite[0+tourB*7]);
+                            if(n!=0+tourB*7) {
+                                sprite[0 + tourB * 7].setPosition(tailleCase / 2 + i * tailleCase,
+                                                                  tailleCase / 2 + (7 - j) * tailleCase);
+                                window->draw(sprite[0 + tourB * 7]);
+                            }
                             tourB++;
                             break;
                         default:
@@ -204,38 +218,56 @@ void IHM_Graphique::affichage() {
                 } else {
                     switch (jeu.getTypePiece(i, j)) {
                         case roi:
-                            sprite[28].setPosition(tailleCase/2+i * tailleCase, tailleCase/2+(7-j) * tailleCase);
-                            window->draw(sprite[28]);
+                            if(n!=28) {
+                                sprite[28].setPosition(tailleCase / 2 + i * tailleCase,
+                                                       tailleCase / 2 + (7 - j) * tailleCase);
+                                window->draw(sprite[28]);
+                            }
                             break;
                         case dame:
-                            sprite[27].setPosition(tailleCase/2+i * tailleCase, tailleCase/2+(7-j) * tailleCase);
-                            window->draw(sprite[27]);
+                            if(n!=27) {
+                                sprite[27].setPosition(tailleCase / 2 + i * tailleCase,
+                                                       tailleCase / 2 + (7 - j) * tailleCase);
+                                window->draw(sprite[27]);
+                            }
                             break;
                         case pion:
-                            sprite[16+pionN].setPosition(tailleCase/2+i * tailleCase, tailleCase/2+(7-j) * tailleCase);
-                            window->draw(sprite[16+pionN]);
+                            if(n!=16+pionN) {
+                                sprite[16 + pionN].setPosition(tailleCase / 2 + i * tailleCase,
+                                                               tailleCase / 2 + (7 - j) * tailleCase);
+                                window->draw(sprite[16 + pionN]);
+                            }
                             pionN++;
                             break;
                         case cavalier:
-                            sprite[25+cavalierN*5].setPosition(tailleCase/2+i * tailleCase, tailleCase/2+(7-j) * tailleCase);
-                            window->draw(sprite[25+cavalierN*5]);
+                            if(n!=25+cavalierN*5) {
+                                sprite[25 + cavalierN * 5].setPosition(tailleCase / 2 + i * tailleCase,
+                                                                       tailleCase / 2 + (7 - j) * tailleCase);
+                                window->draw(sprite[25 + cavalierN * 5]);
+                            }
                             cavalierN++;
                             break;
                         case fou:
-                            sprite[26+fouN*3].setPosition(tailleCase/2+i * tailleCase, tailleCase/2+(7-j) * tailleCase);
-                            window->draw(sprite[26+fouN*3]);
+                            if(n!=26+fouN*3) {
+                                sprite[26 + fouN * 3].setPosition(tailleCase / 2 + i * tailleCase,
+                                                                  tailleCase / 2 + (7 - j) * tailleCase);
+                                window->draw(sprite[26 + fouN * 3]);
+                            }
                             fouN++;
                             break;
                         case tour:
-                            sprite[24+tourN*7].setPosition(tailleCase/2+i * tailleCase, tailleCase/2+(7-j) * tailleCase);
-                            window->draw(sprite[24+tourN*7]);
+                            if(n!=24+tourN*7) {
+                                sprite[24 + tourN * 7].setPosition(tailleCase / 2 + i * tailleCase,
+                                                                   tailleCase / 2 + (7 - j) * tailleCase);
+                                window->draw(sprite[24 + tourN * 7]);
+                            }
                             tourN++;
                             break;
                         default:
                             break;
                     }
                 }
-                if(jeu.getTypePiece(i, j) == mur) {
+                if(jeu.getTypePiece(i, j) == mur && n!=32) {
                     sprite[32].setPosition(tailleCase/2+i * tailleCase, tailleCase/2+(7-j) * tailleCase);
                     window->draw(sprite[32]);
                 }
